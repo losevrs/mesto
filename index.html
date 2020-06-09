@@ -6,23 +6,35 @@
     <meta name="description" content="Четвертая проектная работа Родиона Лосева на Яндекс.Практикуме">
     <meta name="author" content="Родион Лосев">
     <link rel="stylesheet" href="./pages/index.css">
-    <title>Mesto Russia</title>
+    <title>Проект 4: Место</title>
 </head>
 <body>
   <div class="page">
 
       <header class="header">
+        <img class="header__logo" src="./images/header/logo.svg" alt="Логотип">
       </header>
 
       <main class="main">
 
-        <section class="">
+        <section class="profile">
+          <img class="profile__avatar" src="./images/profile/Avatar.jpg" alt="Аватар пользователя">
+          <div class="profile__info">
+            <h1 class="profile__name">Жак-Ив Кусто
+              <img class="profile__editbutton" src="./images/profile/EditButton.svg" alt="Кнопка редактировать">
+            </h1>
+            <p class="profile__description">Исследователь океана</p>
+          </div>
+          <div class="profile__addbutton"></div>
+        </section>
+
+        <section class="elements">
         </section>
 
       </main>
 
       <footer class="footer">
-          &copy;2020. Родион
+        <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
       </footer>
   </div>
   <script src="./js/index.js"></script>
