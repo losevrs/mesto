@@ -1,3 +1,4 @@
 .profile__title {
   display: flex;
+  align-content: center;
 }

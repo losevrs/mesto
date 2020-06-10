@@ -81,12 +81,12 @@
       </footer>
 
       <section class="popup">
-        <form class="popup__container">
+        <form class="popup__container" action="#" method="POST" name="profileform">
           <h2 class="popup__title">Редактировать профиль</h2>
-          <input class="popup__inputname" type="text">
-          <input class="popup__inputdescription" type="text">
+          <input class="popup__input popup__inputname" type="text" name="name">
+          <input class="popup__input popup__inputdescription" type="text" name="description">
           <button class="popup__submit" type="submit">Сохранить</button>
-          <img class="popup__reset" src="./images/popup/CloseIcon.svg" alt="Закрыть окно">
+          <button class="popup__reset" type="button"></button>
         </form>
       </section>
 

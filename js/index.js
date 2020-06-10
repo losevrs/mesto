@@ -9,35 +9,21 @@ let editButton = profileSection.querySelector('.profile__editbutton');
 let profileName = profileSection.querySelector('.profile__name');
 let profileDesc = profileSection.querySelector('.profile__description');
 
-//Инициализация полей формы
-let popupInit = (pName, pDesc) => {
-  popupName.value = pName;
-  popupDesc.value = pDesc;
-}
-
 //Показываем если закрыт - скрываем если открыт popup
-let showPopup = () => {
-  popupInit(profileName.textContent, profileDesc.textContent);
+let showHidePopup = () => {
+  popupName.value = profileName.textContent;
+  popupDesc.value = profileDesc.textContent;
   popupSection.classList.toggle('popup_opened');
 }
 
-let hidePopup = () => popupSection.classList.toggle('popup_opened');
-
-//Вешаем обработчики на элементы формы
-editButton.addEventListener('click',showPopup);
-popupCancel.addEventListener('click',hidePopup);
-
-//Сохранение введенных значений
-let saveNameDesc = (pName, pDesc) => {
-  profileName.textContent = pName;
-  profileDesc.textContent = pDesc;
-}
-
-//Обработка результатов ввода.
 let formSubmitHandler = (evt) => {
   evt.preventDefault();
-  saveNameDesc(popupName.value, popupDesc.value);
-  hidePopup();
+  profileName.textContent = popupName.value;
+  profileDesc.textContent = popupDesc.value;
+  showHidePopup();
 }
 
+//Вешаем обработчики на элементы формы
+editButton.addEventListener('click', showHidePopup);
+popupCancel.addEventListener('click', showHidePopup);
 popupForm.addEventListener('submit', formSubmitHandler);
