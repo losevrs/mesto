@@ -20,9 +20,10 @@
         <section class="profile">
           <img class="profile__avatar" src="./images/profile/Avatar.jpg" alt="Аватар пользователя">
           <div class="profile__info">
-            <h1 class="profile__name">Жак-Ив Кусто
+            <div class="profile__title">
+              <h1 class="profile__name">Жак-Ив Кусто</h1>
               <img class="profile__editbutton" src="./images/profile/EditButton.svg" alt="Кнопка редактировать">
-            </h1>
+            </div>
             <p class="profile__description">Исследователь океана</p>
           </div>
           <div class="profile__addbutton"></div>
@@ -78,6 +79,17 @@
       <footer class="footer">
         <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
       </footer>
+
+      <section class="popup">
+        <form class="popup__container">
+          <h2 class="popup__title">Редактировать профиль</h2>
+          <input class="popup__inputname" type="text">
+          <input class="popup__inputdescription" type="text">
+          <button class="popup__submit" type="submit">Сохранить</button>
+          <img class="popup__reset" src="./images/popup/CloseIcon.svg" alt="Закрыть окно">
+        </form>
+      </section>
+
   </div>
   <script src="./js/index.js"></script>
 </body>

@@ -1,0 +1,19 @@
+@import url('./_opened/popup_opened.css');
+@import url('./__container/popup__container.css');
+@import url('./__title/popup__title.css');
+@import url('./__inputname/popup__inputname.css');
+@import url('./__inputdescription/popup__inputdescription.css');
+@import url('./__submit/popup__submit.css');
+@import url('./__reset/popup__reset.css');
+
+.popup {
+  display:  none;
+  width:  100%;
+  min-height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  overflow: hidden;
+  position: fixed;
+  top:  0px;
+  left: 0px;
+}
+
