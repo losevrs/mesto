@@ -7,3 +7,7 @@
   border: none;
   background: transparent url('../../../images/popup/CloseIcon.svg') no-repeat center top;
 }
+
+.popup__reset:hover {
+  opacity: 0.6;
+}

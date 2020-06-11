@@ -9,12 +9,8 @@
   border-radius: 10px;
   text-align: center;
   max-width: 282px;
-  min-height: 361px;
+  overflow: hidden;
 }
 
-@media screen and (max-width: 900px) {
-  .element {
-    margin-right: 19px;
-  }
-}
+
 

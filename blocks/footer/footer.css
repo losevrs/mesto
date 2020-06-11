@@ -2,7 +2,6 @@
 
 .footer {
   max-width: 882px;
-  min-height: 18px;
   padding: 66px 0 60px;
   margin: 0 auto;
   box-sizing: border-box;
@@ -17,7 +16,6 @@
 @media screen and (max-width: 525px) {
   .footer {
     max-width: 282px;
-    min-height: 14px;
     padding: 48px 0 0;
     padding-bottom: 36px;
   }
