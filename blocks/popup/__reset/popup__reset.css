@@ -11,3 +11,9 @@
 .popup__reset:hover {
   opacity: 0.6;
 }
+
+@media screen and (max-width: 515px) {
+  .popup__reset {
+    right: 5px;
+  }
+}
