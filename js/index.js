@@ -40,19 +40,38 @@ const profileDesc = profileSection.querySelector('.profile__description');
 const elementsContainer = document.querySelector('.elements');
 
 //Показываем если закрыт - скрываем если открыт popup
-function showHidePopup() {
-  if (!popupSection.classList.contains('popup_opened')) {
+function showHidePopup(evt) {
+
+  let popupTitle = popupForm.querySelector('.popup__title');
+
+  let isAddCard = false;
+  let isEditProfile = false;
+  if (evt) {
+    isAddCard = evt.currentTarget.classList.contains('profile__addbutton');
+    isEditProfile = evt.currentTarget.classList.contains('profile__editbutton');
+  }
+
+  let isOpen = popupSection.classList.contains('popup_opened');
+
+  //Если событие пришло от кнопки добавления карточки
+  if (isAddCard && !isOpen) {
+    popupTitle.textContent = "Новое место";
+    popupName.placeholder = "Название";
+    popupDesc.placeholder = "Ссылка на картинку";
+    popupName.value = "";
+    popupDesc.value = "";
+  }
+
+  //Или от кнопки редактирования.
+  if (isEditProfile && !isOpen) {
+    popupTitle.textContent = "Редактировать профиль";
+    popupName.placeholder = "Имя";
+    popupDesc.placeholder = "Описание";
     popupName.value = profileName.textContent;
     popupDesc.value = profileDesc.textContent;
   }
-  popupSection.classList.toggle('popup_opened');
-}
 
-function formSubmitHandler(evt) {
-  evt.preventDefault();
-  profileName.textContent = popupName.value;
-  profileDesc.textContent = popupDesc.value;
-  showHidePopup();
+  popupSection.classList.toggle('popup_opened');
 }
 
 //Обработка лайка
@@ -67,50 +86,53 @@ function deleteCard(evt) {
 
 // Создание карточки
 function createCard (description, photoUrl) {
-  //Создаем карточку
-  const elementCard = document.createElement('div');
-  elementCard.classList.add('element');
+  //Создаем карточку из шаблона
+  const cardTemplate = document.querySelector('#card').content;
+  const elementCard = cardTemplate.cloneNode(true);
 
-  //и добавляем в нее фотоку
-  const viewPort = document.createElement('div');
-  viewPort.classList.add('element__viewport');
+  //и добавляем в нее фотоку и на кнопку удаления обработчик
+  const viewPort = elementCard.querySelector('.element__viewport');
   viewPort.style.backgroundImage = `url('${photoUrl}')`;
-  //добавим кнопку удаления
-  const deleteButton = document.createElement('button');
-  deleteButton.type = 'button';
-  deleteButton.classList.add('element__delete');
+
+  const deleteButton = elementCard.querySelector('.element__delete');
   deleteButton.addEventListener('click', deleteCard);
-  viewPort.appendChild(deleteButton);
-  elementCard.appendChild(viewPort);
 
-  //Создадим описание
-  const cardDescription = document.createElement('div');
-  cardDescription.classList.add('element__description');
-  //с наименованием места
-  const cardPlaceName = document.createElement('h2');
-  cardPlaceName.classList.add('element__placename');
+  //Добавим описание и обработку лайкоа
+  const cardPlaceName = elementCard.querySelector('.element__placename');
   cardPlaceName.textContent = description;
-  //и лайком
-  const likeButton = document.createElement('button');
-  likeButton.type = 'button';
-  likeButton.classList.add('element__like');
+
+  const likeButton = elementCard.querySelector('.element__like');
   likeButton.addEventListener('click', reverseLike);
-
-  cardDescription.appendChild(cardPlaceName);
-  cardDescription.appendChild(likeButton);
-
-  //и добавим его к карточке
-  elementCard.appendChild(cardDescription);
 
   return elementCard;
 }
 
-//insertBefore(createCard(item.name, item.link), elementsContainer.firstElementChild); - вставка в начало
-for (let i in initialCards) {
-  elementsContainer.appendChild(createCard(initialCards[i].name, initialCards[i].link));
+function formSubmitHandler(evt) {
+  evt.preventDefault();
+  let popupTitle = popupForm.querySelector('.popup__title').textContent;
+
+  if (popupTitle === "Редактировать профиль") {
+    profileName.textContent = popupName.value;
+    profileDesc.textContent = popupDesc.value;
+  }
+
+  if (popupTitle === "Новое место") {
+    elementsContainer.insertBefore(createCard(popupName.value, popupDesc.value), elementsContainer.firstElementChild);
+  }
+
+  showHidePopup();
 }
+
+function addCardHandler(evt) {
+  console.log('I am addCardHandler');
+  // insertBefore(createCard(item.name, item.link), elementsContainer.firstElementChild);
+  // - вставка в начало
+}
+
+initialCards.forEach((item) => {elementsContainer.appendChild(createCard(item.name, item.link));});
 
 //Вешаем обработчики на элементы формы
 editButton.addEventListener('click', showHidePopup);
+addButton.addEventListener('click', showHidePopup);
 popupCancel.addEventListener('click', showHidePopup);
 popupForm.addEventListener('submit', formSubmitHandler);
