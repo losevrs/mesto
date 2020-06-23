@@ -1,0 +1,12 @@
+.element__viewport {
+  max-width: 282px;
+  height: 282px;
+  max-height: 282px;
+  height: 282px;
+  background-image: url('https://images.unsplash.com/photo-1588490812171-fc01dd11e71c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=632&q=80');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  cursor: pointer;
+  position: relative;
+}
