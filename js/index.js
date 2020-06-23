@@ -46,6 +46,7 @@ function showHidePopup(evt) {
 
   let isAddCard = false;
   let isEditProfile = false;
+  //Если закрываем по сабмиту - ивент не нужен
   if (evt) {
     isAddCard = evt.currentTarget.classList.contains('profile__addbutton');
     isEditProfile = evt.currentTarget.classList.contains('profile__editbutton');
