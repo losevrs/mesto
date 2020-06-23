@@ -4,8 +4,14 @@
 @import url('./__submit/popup__submit.css');
 @import url('./__reset/popup__reset.css');
 
+@import url('./__photoview/popup__photoview.css');
+@import url('./__image/popup__image.css');
+@import url('./__imagetitle/popup__imagetitle.css');
+
 .popup {
-  display:  none;
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
   width:  100%;
   min-height: 100%;
   background-color: rgba(0,0,0,0.5);
@@ -13,5 +19,6 @@
   position: fixed;
   top:  0px;
   left: 0px;
+  transition: visibility 0.3s, opacity 0.3s linear;
 }
 

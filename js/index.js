@@ -25,7 +25,8 @@ const initialCards = [
   }
 ];
 
-const popupSection = document.querySelector('.popup');
+const popupSection = document.querySelector('.popup_form');
+const popupSectionView = document.querySelector('.popup_view');
 const popupForm = popupSection.querySelector('.popup__container');
 const popupCancel = popupSection.querySelector('.popup__reset');
 const popupName = popupSection.querySelector('.popup__input_name');
@@ -94,6 +95,7 @@ function createCard (description, photoUrl) {
   //и добавляем в нее фотоку и на кнопку удаления обработчик
   const viewPort = elementCard.querySelector('.element__viewport');
   viewPort.style.backgroundImage = `url('${photoUrl}')`;
+  viewPort.addEventListener('click', viewCardHandler);
 
   const deleteButton = elementCard.querySelector('.element__delete');
   deleteButton.addEventListener('click', deleteCard);
@@ -124,10 +126,11 @@ function formSubmitHandler(evt) {
   showHidePopup();
 }
 
-function addCardHandler(evt) {
-  console.log('I am addCardHandler');
-  // insertBefore(createCard(item.name, item.link), elementsContainer.firstElementChild);
-  // - вставка в начало
+function viewCardHandler(evt) {
+  let imageurl = evt.currentTarget.style.backgroundImage.split("\"");
+  popupSectionView.querySelector('.popup__image').src = imageurl[1];
+  popupSectionView.querySelector('.popup__imagetitle').textContent = "!!!!!!!!!!!";
+  popupSectionView.classList.toggle('popup_opened');
 }
 
 initialCards.forEach((item) => {elementsContainer.appendChild(createCard(item.name, item.link));});
