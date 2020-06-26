@@ -9,3 +9,12 @@
   border: none;
   border-bottom: 1px solid rgba(0,0,0,0.2);
 }
+
+@media screen and (max-width: 460px) {
+  .popup__input {
+    margin: 20px 0 0;
+    font-size: 12px;
+    line-height: 15px;
+    min-height: 24px;
+  }
+}

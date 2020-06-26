@@ -15,3 +15,12 @@
   background: rgba(0, 0, 0, 0.8);
   cursor: pointer;
 }
+
+@media screen and (max-width: 460px) {
+  .popup__submit {
+    margin: 36px 0 0;
+    font-size: 14px;
+    line-height: 17px;
+    line-height: 15px;
+  }
+}
