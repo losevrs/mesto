@@ -22,11 +22,11 @@
           <div class="profile__info">
             <div class="profile__title">
               <h1 class="profile__name">Жак-Ив Кусто</h1>
-              <button class="profile__editbutton" type="button" data-task="editprofile"></button>
+              <button class="profile__editbutton" type="button"></button>
             </div>
             <p class="profile__description">Исследователь океана</p>
           </div>
-          <button class="profile__addbutton" type="button" data-task="addcard"></button>
+          <button class="profile__addbutton" type="button"></button>
         </section>
 
         <section class="placesphotos">
@@ -39,22 +39,22 @@
       </footer>
 
       <section class="popup popup_profileedit">
-        <form class="popup__container" action="#" method="POST" name="popupform" data-task="none">
+        <form class="popup__container" action="#" method="POST" name="popupform">
           <h2 class="popup__title">Редактировать профиль</h2>
           <input class="popup__input popup__input_name" type="text" name="name" placeholder="Имя">
           <input class="popup__input popup__input_description" type="text" name="description" placeholder="Описание">
-          <button class="popup__submit" type="submit" data-task="none">Сохранить</button>
-          <button class="popup__reset" type="button" data-task="closepopup"></button>
+          <button class="popup__submit" type="submit">Сохранить</button>
+          <button class="popup__reset" type="button"></button>
         </form>
       </section>
 
       <section class="popup popup_newplace">
-        <form class="popup__container" action="#" method="POST" name="popupplace" data-task="none">
+        <form class="popup__container" action="#" method="POST" name="popupplace" >
           <h2 class="popup__title">Новое место</h2>
           <input class="popup__input popup__input_photoname" type="text" name="name" placeholder="Название">
           <input class="popup__input popup__input_photourl" type="text" name="description" placeholder="Ссылка на картинку">
-          <button class="popup__submit" type="submit" data-task="none">Сохранить</button>
-          <button class="popup__reset" type="button" data-task="closepopup"></button>
+          <button class="popup__submit" type="submit">Сохранить</button>
+          <button class="popup__reset" type="button"></button>
         </form>
       </section>
 
@@ -62,13 +62,13 @@
         <div class="popup__photoview">
           <img class="popup__image" alt="Просмотр фото" src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg">
           <h2 class="popup__imagetitle">Тут будет заголовок</h2>
-          <button class="popup__reset" type="button" data-task="closepopup"></button>
+          <button class="popup__reset" type="button"></button>
         </div>
       </section>
 
       <template id="card">
         <div class="photocard">
-          <div class="photocard__viewport" data-task="photoview">
+          <div class="photocard__viewport">
             <button class="photocard__delete" type="button"></button>
           </div>
           <div class="photocard__description">
