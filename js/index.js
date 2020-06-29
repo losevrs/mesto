@@ -42,9 +42,11 @@ const editButton = profileSection.querySelector('.profile__editbutton');
 const addButton = profileSection.querySelector('.profile__addbutton');
 
 const profileName = profileSection.querySelector('.profile__name');
-const profileDesc = profileSection.querySelector('.profile__description');
+const profileDesc = profileSection.querySelector('.profile__description')
 
-const elementsContainer = document.querySelector('.elements');
+const placesphotosContainer = document.querySelector('.placesphotos');
+const cardTemplate = document.querySelector('#card').content;
+
 
 //Выбор в попапе между формой и вьюхой (ну и вкл - выкл)
 function switchTo(element) {
@@ -103,7 +105,7 @@ function showHidePopup(evt) {
     case "photoview":
       imageurl = evt.currentTarget.style.backgroundImage.split("\"");
       popupView.querySelector('.popup__image').src = imageurl[1];
-      popupView.querySelector('.popup__imagetitle').textContent = evt.currentTarget.closest(".element").querySelector(".element__placename").textContent;
+      popupView.querySelector('.popup__imagetitle').textContent = evt.currentTarget.closest(".photocard").querySelector(".photocard__placename").textContent;
       switchTo("View");
       break;
     case "closepopup":
@@ -115,37 +117,36 @@ function showHidePopup(evt) {
 }
 
 //Обработка лайка
-function reverseLike(evt) {
-  evt.currentTarget.classList.toggle('element__like_state_on');
+function toggleLike(evt) {
+  evt.currentTarget.classList.toggle('photocard__like_on');
   evt.stopPropagation();
 }
 
 //и делита
 function deleteCard(evt) {
-  evt.currentTarget.closest(".element").remove();;
+  evt.currentTarget.closest(".photocard").remove();;
   evt.stopPropagation();
 }
 
 // Создание карточки
 function createCard (description, photoUrl) {
   //Создаем карточку из шаблона
-  const cardTemplate = document.querySelector('#card').content;
   const elementCard = cardTemplate.cloneNode(true);
 
   //и добавляем в нее фотоку и на кнопку удаления обработчик
-  const viewPort = elementCard.querySelector('.element__viewport');
+  const viewPort = elementCard.querySelector('.photocard__viewport');
   viewPort.style.backgroundImage = `url('${photoUrl}')`;
   viewPort.addEventListener('click', showHidePopup);
 
-  const deleteButton = elementCard.querySelector('.element__delete');
+  const deleteButton = elementCard.querySelector('.photocard__delete');
   deleteButton.addEventListener('click', deleteCard);
 
   //Добавим описание и обработку лайкоа
-  const cardPlaceName = elementCard.querySelector('.element__placename');
+  const cardPlaceName = elementCard.querySelector('.photocard__placename');
   cardPlaceName.textContent = description;
 
-  const likeButton = elementCard.querySelector('.element__like');
-  likeButton.addEventListener('click', reverseLike);
+  const likeButton = elementCard.querySelector('.photocard__like');
+  likeButton.addEventListener('click', toggleLike);
 
   return elementCard;
 }
@@ -160,17 +161,20 @@ function formSubmitHandler(evt) {
       profileDesc.textContent = popupDesc.value;
       break;
     case "addcard":
-      elementsContainer.insertBefore(createCard(popupName.value, popupDesc.value), elementsContainer.firstElementChild);
+      placesphotosContainer.insertBefore(createCard(popupName.value, popupDesc.value), placesphotosContainer.firstElementChild);
       break;
   }
 
   showHidePopup();
 }
 
-initialCards.forEach((item) => {elementsContainer.appendChild(createCard(item.name, item.link));});
+function cardsInit() {
+  initialCards.forEach((item) => {placesphotosContainer.appendChild(createCard(item.name, item.link));});
+}
 
 //Вешаем обработчики на элементы формы
 editButton.addEventListener('click', showHidePopup);
 addButton.addEventListener('click', showHidePopup);
 popupCancel.forEach((element) => element.addEventListener('click', showHidePopup));
 popupForm.addEventListener('submit', formSubmitHandler);
+cardsInit();

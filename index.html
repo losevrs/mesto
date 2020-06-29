@@ -29,20 +29,7 @@
           <button class="profile__addbutton" type="button" data-task="addcard"></button>
         </section>
 
-        <section class="elements">
-
-          <template id="card">
-            <div class="element">
-              <div class="element__viewport" data-task="photoview">
-                <button class="element__delete" type="button"></button>
-              </div>
-              <div class="element__description">
-                <h2 class="element__placename">Карачаево-Черкесия</h2>
-                <button class="element__like" type="button"></button>
-              </div>
-            </div>
-          </template>
-
+        <section class="placesphotos">
         </section>
 
       </main>
@@ -65,6 +52,17 @@
           <button class="popup__reset" type="button" data-task="closepopup"></button>
         </div>
       </section>
+      <template id="card">
+        <div class="photocard">
+          <div class="photocard__viewport" data-task="photoview">
+            <button class="photocard__delete" type="button"></button>
+          </div>
+          <div class="photocard__description">
+            <h2 class="photocard__placename">Карачаево-Черкесия</h2>
+            <button class="photocard__like" type="button"></button>
+          </div>
+        </div>
+      </template>
 
   </div>
   <script src="./js/index.js"></script>

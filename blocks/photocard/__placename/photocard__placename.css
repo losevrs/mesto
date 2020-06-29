@@ -1,4 +1,4 @@
-.element__placename {
+.photocard__placename {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;

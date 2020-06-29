@@ -1,4 +1,4 @@
-.element__delete {
+.photocard__delete {
   position: absolute;
   top: 18px;
   right: 15px;
@@ -7,10 +7,10 @@
   border: none;
   outline: none;
   padding: 0;
-  background: transparent url('../../../images/elements/Trash.svg') no-repeat center top;
+  background: transparent url('../../../images/placesphotos/Trash.svg') no-repeat center top;
 }
 
-.element__delete:hover {
+.photocard__delete:hover {
   opacity: 0.6;
   cursor: pointer;
 }
