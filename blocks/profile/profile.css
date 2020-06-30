@@ -7,8 +7,8 @@
 @import url('./__addbutton/profile__addbutton.css');
 
 .profile {
-  max-width: 882px;
-  padding: 40px 0 0;
+  max-width: 942px;
+  padding: 40px 30px 0;
   margin: 0;
   display: flex;
   flex-flow: row nowrap;
@@ -16,7 +16,7 @@
   color: white;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1000px) {
   .profile {
     padding: 40px 19px 0;
     flex-flow: column nowrap;

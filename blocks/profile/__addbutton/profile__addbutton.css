@@ -14,7 +14,7 @@
   cursor: pointer;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1000px) {
   .profile__addbutton {
     margin: 36px auto 0;
     background: transparent url('../../../images/profile/plus16.svg') no-repeat center center;
