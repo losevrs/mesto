@@ -39,6 +39,8 @@ const popupNewplaceReset = popupNewplaceForm.querySelector('.popup__reset');
 
 
 const popupView = document.querySelector('.popup_view');
+const popupViewImage = popupView.querySelector('.popup__image');
+const popupViewImageTitle = popupView.querySelector('.popup__imagetitle');
 const popupViewReset = popupView.querySelector('.popup__reset');
 
 const profileSection = document.querySelector('.profile');
@@ -77,11 +79,11 @@ function showAddCardForm() {
 }
 
 function showPhotoView(event) {
-  const imageUrl = event.currentTarget.style.backgroundImage.split("\"")[1];
-  if (imageurl) {
-    popupView.querySelector('.popup__image').src = imageUrl;
+  const imageUrl = event.target.src;
+  if (imageUrl) {
+    popupViewImage.src = imageUrl;
   }
-  popupView.querySelector('.popup__imagetitle').textContent = event.currentTarget.closest(".photocard").querySelector(".photocard__placename").textContent;
+  popupViewImageTitle.textContent = event.currentTarget.closest(".photocard").querySelector(".photocard__placename").textContent;
   addPopup(popupView);
 }
 
@@ -101,14 +103,19 @@ function deleteCard(event) {
   event.stopPropagation();
 }
 
+function onErrorLoadImage (event) {
+  event.target.src = './images/placesphotos/onerror.jpg';
+}
+
 // Создание карточки из шаблона
 function createCard (description, photoUrl) {
 
   const elementCard = cardTemplate.cloneNode(true);
 
   const viewPort = elementCard.querySelector('.photocard__viewport');
-  viewPort.style.backgroundImage = `url('${photoUrl}')`;
+  viewPort.src = photoUrl;
   viewPort.addEventListener('click', showPhotoView);
+  viewPort.onerror = onErrorLoadImage;
 
   const deleteButton = elementCard.querySelector('.photocard__delete');
   deleteButton.addEventListener('click', deleteCard);
@@ -133,7 +140,7 @@ function profileFormSubmitHandler(event) {
 
 function addCardFormSubmitHandler(event) {
   event.preventDefault();
-  placesPhotosContainer.insertBefore(createCard(popupNewplaceName.value, popupNewplaceUrl.value), placesPhotosContainer.firstElementChild);
+  placesPhotosContainer.prepend(createCard(popupNewplaceName.value, popupNewplaceUrl.value));
   closePopup(event);
 }
 

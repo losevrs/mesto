@@ -12,8 +12,11 @@
   text-align: center;
   max-width: 282px;
   width: 282px;
+  max-height: 362px;
+  height: 362px;
   overflow: hidden;
   transition: all 0.3s ease-out;
+  position: relative;
 }
 
 .photocard:hover {
