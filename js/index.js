@@ -29,14 +29,12 @@ const popupProfile = document.querySelector('.popup_profileedit');
 const popupProfileForm = popupProfile.querySelector('.popup__container');
 const popupProfileName = popupProfileForm.querySelector('.popup__input_name');
 const popupProfileDescription = popupProfileForm.querySelector('.popup__input_description');
-const popupProfileSubmit = popupProfileForm.querySelector('.popup__submit');
 const popupProfileReset = popupProfileForm.querySelector('.popup__reset');
 
 const popupNewplace = document.querySelector('.popup_newplace');
 const popupNewplaceForm = popupNewplace.querySelector('.popup__container');
 const popupNewplaceName = popupNewplaceForm.querySelector('.popup__input_photoname');
 const popupNewplaceUrl = popupNewplaceForm.querySelector('.popup__input_photourl');
-const popupNewplaceSubmit = popupNewplaceForm.querySelector('.popup__submit');
 const popupNewplaceReset = popupNewplaceForm.querySelector('.popup__reset');
 
 
@@ -55,45 +53,52 @@ const placesPhotosContainer = document.querySelector('.placesphotos');
 
 const cardTemplate = document.querySelector('#card').content;
 
-function togglePopup(popupElement) {
-  popupElement.classList.toggle('popup_opened');
+function addPopup(popupElement) {
+  if (!popupElement.classList. contains('popup_opened')) {
+    popupElement.classList.add('popup_opened');
+  }
+}
+
+function removePopup(popupElement) {
+  if (popupElement.classList.contains('popup_opened')) {
+    popupElement.classList.remove('popup_opened');
+  }
 }
 
 function showProfile() {
   popupProfileName.value = profileName.textContent;
   popupProfileDescription.value = profileDesc.textContent;
-  togglePopup(popupProfile);
+  addPopup(popupProfile);
 }
 
 function showAddCardForm() {
-  popupNewplaceName.value = "";
-  popupNewplaceUrl.value = "";
-  togglePopup(popupNewplace);
+  popupNewplaceForm.reset();
+  addPopup(popupNewplace);
 }
 
-function showPhotoView(evt) {
-  const imageurl = evt.currentTarget.style.backgroundImage.split("\"")[1];
+function showPhotoView(event) {
+  const imageUrl = event.currentTarget.style.backgroundImage.split("\"")[1];
   if (imageurl) {
-    popupView.querySelector('.popup__image').src = imageurl;
+    popupView.querySelector('.popup__image').src = imageUrl;
   }
-  popupView.querySelector('.popup__imagetitle').textContent = evt.currentTarget.closest(".photocard").querySelector(".photocard__placename").textContent;
-  togglePopup(popupView);
+  popupView.querySelector('.popup__imagetitle').textContent = event.currentTarget.closest(".photocard").querySelector(".photocard__placename").textContent;
+  addPopup(popupView);
 }
 
-function closePopup(evt){
-  togglePopup(evt.currentTarget.closest(".popup"));
+function closePopup(event){
+  removePopup(event.currentTarget.closest(".popup"));
 }
 
 //Обработка лайка на карточке
-function toggleLike(evt) {
-  evt.currentTarget.classList.toggle('photocard__like_on');
-  evt.stopPropagation();
+function toggleLike(event) {
+  event.currentTarget.classList.toggle('photocard__like_on');
+  event.stopPropagation();
 }
 
 //Обработка делита карточки
-function deleteCard(evt) {
-  evt.currentTarget.closest(".photocard").remove();;
-  evt.stopPropagation();
+function deleteCard(event) {
+  event.currentTarget.closest(".photocard").remove();;
+  event.stopPropagation();
 }
 
 // Создание карточки из шаблона
@@ -119,19 +124,18 @@ function createCard (description, photoUrl) {
 
 // Сабмиты
 
-function profileFormSubmitHandler(evt) {
-  evt.preventDefault();
+function profileFormSubmitHandler(event) {
+  event.preventDefault();
   profileName.textContent = popupProfileName.value;
   profileDesc.textContent = popupProfileDescription.value;
-  closePopup(evt);
+  closePopup(event);
 }
 
-function addCardFormSubmitHandler(evt) {
-  evt.preventDefault();
+function addCardFormSubmitHandler(event) {
+  event.preventDefault();
   placesPhotosContainer.insertBefore(createCard(popupNewplaceName.value, popupNewplaceUrl.value), placesPhotosContainer.firstElementChild);
-  closePopup(evt);
+  closePopup(event);
 }
-
 
 // Инициализация
 
