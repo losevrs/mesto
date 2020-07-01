@@ -55,13 +55,14 @@ const placesPhotosContainer = document.querySelector('.placesphotos');
 
 const cardTemplate = document.querySelector('#card').content;
 
-function addPopup(popupElement) {
+function openPopup(popupElement) {
   if (!popupElement.classList. contains('popup_opened')) {
     popupElement.classList.add('popup_opened');
   }
 }
 
-function removePopup(popupElement) {
+function closePopup(event) {
+  const popupElement = event.currentTarget.closest(".popup");
   if (popupElement.classList.contains('popup_opened')) {
     popupElement.classList.remove('popup_opened');
   }
@@ -70,25 +71,18 @@ function removePopup(popupElement) {
 function showProfile() {
   popupProfileName.value = profileName.textContent;
   popupProfileDescription.value = profileDesc.textContent;
-  addPopup(popupProfile);
+  openPopup(popupProfile);
 }
 
 function showAddCardForm() {
   popupNewplaceForm.reset();
-  addPopup(popupNewplace);
+  openPopup(popupNewplace);
 }
 
 function showPhotoView(event) {
-  const imageUrl = event.target.src;
-  if (imageUrl) {
-    popupViewImage.src = imageUrl;
-  }
-  popupViewImageTitle.textContent = event.currentTarget.closest(".photocard").querySelector(".photocard__placename").textContent;
-  addPopup(popupView);
-}
-
-function closePopup(event){
-  removePopup(event.currentTarget.closest(".popup"));
+  popupViewImage.src = event.target.src;
+  popupViewImageTitle.textContent = event.target.alt;
+  openPopup(popupView);
 }
 
 //Обработка лайка на карточке
@@ -114,6 +108,7 @@ function createCard (description, photoUrl) {
 
   const viewPort = elementCard.querySelector('.photocard__viewport');
   viewPort.src = photoUrl;
+  viewPort.alt = description;
   viewPort.addEventListener('click', showPhotoView);
   viewPort.onerror = onErrorLoadImage;
 
@@ -147,7 +142,9 @@ function addCardFormSubmitHandler(event) {
 // Инициализация
 
 function cardsInit() {
-  initialCards.forEach((item) => {placesPhotosContainer.appendChild(createCard(item.name, item.link));});
+  initialCards.forEach((item) => {
+    placesPhotosContainer.appendChild(createCard(item.name, item.link));
+  });
 }
 
 function setPageListeners() {
