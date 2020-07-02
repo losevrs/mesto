@@ -101,7 +101,7 @@ function deleteCardListeners(elementCard) {
 
   viewPort.removeEventListener('click', showPhotoView);
   deleteButton.removeEventListener('click', deleteCard);
-  likeButton.addEventListener('click', toggleLike);
+  likeButton.removeEventListener('click', toggleLike);
 }
 
 function deleteCard(event) {
