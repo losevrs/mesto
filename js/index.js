@@ -1,3 +1,5 @@
+'use strict';
+
 const initialCards = [
   {
     name: 'Архыз',
@@ -62,7 +64,7 @@ function openPopup(popupElement) {
 }
 
 function closePopup(event) {
-  const popupElement = event.currentTarget.closest(".popup");
+  const popupElement = event.currentTarget.closest('.popup');
   if (popupElement.classList.contains('popup_opened')) {
     popupElement.classList.remove('popup_opened');
   }
@@ -92,8 +94,20 @@ function toggleLike(event) {
 }
 
 //Обработка делита карточки
+function deleteCardListeners(elementCard) {
+  const viewPort = elementCard.querySelector('.photocard__viewport');
+  const deleteButton = elementCard.querySelector('.photocard__delete');
+  const likeButton = elementCard.querySelector('.photocard__like');
+
+  viewPort.removeEventListener('click', showPhotoView);
+  deleteButton.removeEventListener('click', deleteCard);
+  likeButton.addEventListener('click', toggleLike);
+}
+
 function deleteCard(event) {
-  event.currentTarget.closest(".photocard").remove();;
+  const card = event.currentTarget.closest('.photocard');
+  deleteCardListeners(card);
+  card.remove();
   event.stopPropagation();
 }
 
@@ -102,13 +116,13 @@ function onErrorLoadImage (event) {
 }
 
 // Создание карточки из шаблона
-function createCard (description, photoUrl) {
+function createCard (cardData) {
 
   const elementCard = cardTemplate.cloneNode(true);
 
   const viewPort = elementCard.querySelector('.photocard__viewport');
-  viewPort.src = photoUrl;
-  viewPort.alt = description;
+  viewPort.src = cardData.link;
+  viewPort.alt = cardData.name;
   viewPort.addEventListener('click', showPhotoView);
   viewPort.onerror = onErrorLoadImage;
 
@@ -116,7 +130,7 @@ function createCard (description, photoUrl) {
   deleteButton.addEventListener('click', deleteCard);
 
   const cardPlaceName = elementCard.querySelector('.photocard__placename');
-  cardPlaceName.textContent = description;
+  cardPlaceName.textContent = cardData.name;
 
   const likeButton = elementCard.querySelector('.photocard__like');
   likeButton.addEventListener('click', toggleLike);
@@ -134,8 +148,12 @@ function profileFormSubmitHandler(event) {
 }
 
 function addCardFormSubmitHandler(event) {
+  const cardData = {
+    name: popupNewplaceName.value,
+    link: popupNewplaceUrl.value
+  };
   event.preventDefault();
-  placesPhotosContainer.prepend(createCard(popupNewplaceName.value, popupNewplaceUrl.value));
+  placesPhotosContainer.prepend(createCard(cardData));
   closePopup(event);
 }
 
@@ -143,7 +161,7 @@ function addCardFormSubmitHandler(event) {
 
 function cardsInit() {
   initialCards.forEach((item) => {
-    placesPhotosContainer.appendChild(createCard(item.name, item.link));
+    placesPhotosContainer.appendChild(createCard(item));
   });
 }
 
