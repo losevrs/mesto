@@ -95,13 +95,9 @@ function toggleLike(event) {
 
 //Обработка делита карточки
 function deleteCardListeners(elementCard) {
-  const viewPort = elementCard.querySelector('.photocard__viewport');
-  const deleteButton = elementCard.querySelector('.photocard__delete');
-  const likeButton = elementCard.querySelector('.photocard__like');
-
-  viewPort.removeEventListener('click', showPhotoView);
-  deleteButton.removeEventListener('click', deleteCard);
-  likeButton.removeEventListener('click', toggleLike);
+  elementCard.querySelector('.photocard__viewport').removeEventListener('click', showPhotoView);
+  elementCard.querySelector('.photocard__delete').removeEventListener('click', deleteCard);
+  elementCard.querySelector('.photocard__like').removeEventListener('click', toggleLike);
 }
 
 function deleteCard(event) {
