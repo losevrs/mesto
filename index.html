@@ -41,8 +41,8 @@
       <section class="popup popup_profileedit">
         <form class="popup__container" action="#" method="POST" name="popupform">
           <h2 class="popup__title">Редактировать профиль</h2>
-          <input class="popup__input popup__input_name" type="text" name="name" placeholder="Имя">
-          <input class="popup__input popup__input_description" type="text" name="description" placeholder="Описание">
+          <input class="popup__input popup__input_name" type="text" name="name" placeholder="Имя" required minlength="2" maxlength="40">
+          <input class="popup__input popup__input_description" type="text" name="description" placeholder="Описание" required minlength="2" maxlength="200">
           <button class="popup__submit" type="submit">Сохранить</button>
           <button class="popup__reset" type="button"></button>
         </form>
@@ -51,8 +51,8 @@
       <section class="popup popup_newplace">
         <form class="popup__container" action="#" method="POST" name="popupplace" >
           <h2 class="popup__title">Новое место</h2>
-          <input class="popup__input popup__input_photoname" type="text" name="name" placeholder="Название">
-          <input class="popup__input popup__input_photourl" type="text" name="description" placeholder="Ссылка на картинку">
+          <input class="popup__input popup__input_photoname" type="text" name="name" placeholder="Название" required minlength="1" maxlength="30">
+          <input class="popup__input popup__input_photourl" type="url" name="description" placeholder="Ссылка на картинку">
           <button class="popup__submit" type="submit">Сохранить</button>
           <button class="popup__reset" type="button"></button>
         </form>
@@ -79,6 +79,7 @@
 
   </div>
   <script src="./js/index.js"></script>
+  <script src="./js/validate.js"></script>
 </body>
 </html>
 
