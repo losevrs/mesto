@@ -59,15 +59,6 @@ const cardTemplate = document.querySelector('#card').content;
 
 const targetsForClose = ['popup','popup__reset','popup__submit'];
 
-function openPopup(popupElement) {
-  if (!popupElement.classList.contains('popup_opened')) {
-    popupElement.classList.add('popup_opened');
-  }
-  const inputs = Array.from(popupElement.querySelectorAll(validationSettings.inputSelector));
-  const submitButton = popupElement.querySelector(validationSettings.submitButtonSelector);
-  toggleSubmitState (inputs, submitButton, validationSettings);
-}
-
 function closeOpenedPopup() {
   const closePopup =document.querySelector('.popup_opened');
   const inputs = Array.from(closePopup.querySelectorAll(validationSettings.inputSelector));
@@ -79,6 +70,12 @@ function closeOpenedPopup() {
   });
 }
 
+function closeOnEsc(event) {
+  if (event.key === 'Escape') {
+    closeOpenedPopup();
+  }
+}
+
 function closePopup(event) {
   let yesClose = targetsForClose.some((element) => {
                    return event.target.classList.contains(element);});
@@ -86,7 +83,17 @@ function closePopup(event) {
     closeOpenedPopup();
     event.stopPropagation();
   }
+  window.removeEventListener('keydown', closeOnEsc);
+}
 
+function openPopup(popupElement) {
+  if (!popupElement.classList.contains('popup_opened')) {
+    popupElement.classList.add('popup_opened');
+  }
+  const inputs = Array.from(popupElement.querySelectorAll(validationSettings.inputSelector));
+  const submitButton = popupElement.querySelector(validationSettings.submitButtonSelector);
+  window.addEventListener('keydown', closeOnEsc);
+  toggleSubmitState (inputs, submitButton, validationSettings);
 }
 
 function showProfile() {
@@ -185,11 +192,6 @@ function setPageListeners() {
   addButton.addEventListener('click', showAddCardForm);
 
   window.addEventListener('mousedown', closePopup);
-  window.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-      closeOpenedPopup();
-    }
-  });
 
   popupNewplaceForm.addEventListener('submit', addCardFormSubmitHandler);
   popupProfileForm.addEventListener('submit', profileFormSubmitHandler);
