@@ -38,8 +38,10 @@ function isInvalidInputs (inputs) {
 function toggleSubmitState (inputs, submitButton, settings) {
   if (isInvalidInputs(inputs)) {
     submitButton.classList.add(settings.inactiveButtonClass);
+    submitButton.disabled = true;
   } else {
     submitButton.classList.remove(settings.inactiveButtonClass);
+    submitButton.disabled = false;
   }
 };
 

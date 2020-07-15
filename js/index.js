@@ -90,20 +90,23 @@ function openPopup(popupElement) {
   if (!popupElement.classList.contains('popup_opened')) {
     popupElement.classList.add('popup_opened');
   }
-  const inputs = Array.from(popupElement.querySelectorAll(validationSettings.inputSelector));
-  const submitButton = popupElement.querySelector(validationSettings.submitButtonSelector);
   window.addEventListener('keydown', closeOnEsc);
-  toggleSubmitState (inputs, submitButton, validationSettings);
 }
 
 function showProfile() {
   popupProfileName.value = profileName.textContent;
   popupProfileDescription.value = profileDesc.textContent;
+  const inputs = Array.from(popupProfile.querySelectorAll(validationSettings.inputSelector));
+  const submitButton = popupProfile.querySelector(validationSettings.submitButtonSelector);
+  toggleSubmitState (inputs, submitButton, validationSettings);
   openPopup(popupProfile);
 }
 
 function showAddCardForm() {
   popupNewplaceForm.reset();
+  const inputs = Array.from(popupNewplace.querySelectorAll(validationSettings.inputSelector));
+  const submitButton = popupNewplace.querySelector(validationSettings.submitButtonSelector);
+  toggleSubmitState (inputs, submitButton, validationSettings);
   openPopup(popupNewplace);
 }
 
