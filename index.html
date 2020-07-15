@@ -39,20 +39,30 @@
       </footer>
 
       <section class="popup popup_profileedit">
-        <form class="popup__container" action="#" method="POST" name="popupform">
+        <form class="popup__container" action="#" method="POST" name="popupform" novalidate>
           <h2 class="popup__title">Редактировать профиль</h2>
+
           <input class="popup__input popup__input_name" type="text" name="name" placeholder="Имя" required minlength="2" maxlength="40">
+          <span id="popup__input_name_error" class="popup__input_type_error"></span>
+
           <input class="popup__input popup__input_description" type="text" name="description" placeholder="Описание" required minlength="2" maxlength="200">
+          <span id="popup__input_description_error" class="popup__input_type_error"></span>
+
           <button class="popup__submit" type="submit">Сохранить</button>
           <button class="popup__reset" type="button"></button>
         </form>
       </section>
 
       <section class="popup popup_newplace">
-        <form class="popup__container" action="#" method="POST" name="popupplace" >
+        <form class="popup__container" action="#" method="POST" name="popupplace" novalidate>
           <h2 class="popup__title">Новое место</h2>
-          <input class="popup__input popup__input_photoname" type="text" name="name" placeholder="Название" required minlength="1" maxlength="30">
-          <input class="popup__input popup__input_photourl" type="url" name="description" placeholder="Ссылка на картинку">
+
+          <input class="popup__input popup__input_photoname" type="text" name="photoname" placeholder="Название" required minlength="1" maxlength="30">
+          <span id="popup__input_photoname_error" class="popup__input_type_error"></span>
+
+          <input class="popup__input popup__input_photourl" type="url" name="photourl" placeholder="Ссылка на картинку" required>
+          <span id="popup__input_photourl_error" class="popup__input_type_error"></span>
+
           <button class="popup__submit" type="submit">Сохранить</button>
           <button class="popup__reset" type="button"></button>
         </form>
@@ -78,8 +88,8 @@
       </template>
 
   </div>
-  <script src="./js/index.js"></script>
   <script src="./js/validate.js"></script>
+  <script src="./js/index.js"></script>
 </body>
 </html>
 

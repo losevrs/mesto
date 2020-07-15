@@ -60,16 +60,23 @@ const cardTemplate = document.querySelector('#card').content;
 const targetsForClose = ['popup','popup__reset','popup__submit'];
 
 function openPopup(popupElement) {
-  if (!popupElement.classList. contains('popup_opened')) {
+  if (!popupElement.classList.contains('popup_opened')) {
     popupElement.classList.add('popup_opened');
   }
+  const inputs = Array.from(popupElement.querySelectorAll(validationSettings.inputSelector));
+  const submitButton = popupElement.querySelector(validationSettings.submitButtonSelector);
+  toggleSubmitState (inputs, submitButton, validationSettings);
 }
 
 function closeOpenedPopup() {
   const closePopup =document.querySelector('.popup_opened');
+  const inputs = Array.from(closePopup.querySelectorAll(validationSettings.inputSelector));
   if (closePopup) {
     closePopup.classList.remove('popup_opened');
   }
+  inputs.forEach((inputElement) => {
+    hideInputError(closePopup, inputElement, validationSettings);
+  });
 }
 
 function closePopup(event) {
@@ -79,6 +86,7 @@ function closePopup(event) {
     closeOpenedPopup();
     event.stopPropagation();
   }
+
 }
 
 function showProfile() {
