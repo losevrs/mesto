@@ -1,14 +1,5 @@
 'use strict';
 
-const validationSettings = {
-  formSelector: '.popup__container',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__submit',
-  inactiveButtonClass: 'popup__submit_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible',
-}
-
 function showInputError(form, inputElement, errorMessage, settings) {
   const displayError = form.querySelector(`#${settings.inputSelector.slice(1)}_${inputElement.name}_error`);
   displayError.textContent = errorMessage;

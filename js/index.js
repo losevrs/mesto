@@ -1,32 +1,5 @@
 'use strict';
 
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
 const popupProfile = document.querySelector('.popup_profileedit');
 const popupProfileForm = popupProfile.querySelector('.popup__container');
 const popupProfileName = popupProfileForm.querySelector('.popup__input_name');
@@ -56,8 +29,6 @@ const profileDesc = profileSection.querySelector('.profile__description')
 const placesPhotosContainer = document.querySelector('.placesphotos');
 
 const cardTemplate = document.querySelector('#card').content;
-
-const targetsForClose = ['popup','popup__reset','popup__submit'];
 
 function closeOpenedPopup() {
   const closePopuD =document.querySelector('.popup_opened');
@@ -191,21 +162,16 @@ function closeOnMouseDownHandler(event) {
 
 // Инициализация
 
-function cardsInit() {
-  initialCards.forEach((item) => {
+initialCards.forEach((item) => {
     placesPhotosContainer.appendChild(createCard(item));
-  });
-}
+});
 
-function setPageListeners() {
-  editButton.addEventListener('click', showProfile);
-  addButton.addEventListener('click', showAddCardForm);
+editButton.addEventListener('click', showProfile);
+addButton.addEventListener('click', showAddCardForm);
 
-  document.addEventListener('mousedown', closeOnMouseDownHandler);
+document.addEventListener('mousedown', closeOnMouseDownHandler);
 
-  popupNewplaceForm.addEventListener('submit', addCardFormSubmitHandler);
-  popupProfileForm.addEventListener('submit', profileFormSubmitHandler);
-}
+popupNewplaceForm.addEventListener('submit', addCardFormSubmitHandler);
+popupProfileForm.addEventListener('submit', profileFormSubmitHandler);
 
-setPageListeners();
-cardsInit();
+
