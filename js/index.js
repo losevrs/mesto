@@ -31,10 +31,8 @@ const placesPhotosContainer = document.querySelector('.placesphotos');
 const cardTemplate = document.querySelector('#card').content;
 
 function closeOpenedPopup() {
-  const closePopuD =document.querySelector('.popup_opened');
-  if (closePopuD) {
-    closePopuD.classList.remove('popup_opened');
-  }
+  const openedPopup =document.querySelector('.popup_opened');
+  closePopup(openedPopup);
 }
 
 function closeOnEsc(event) {
@@ -60,23 +58,13 @@ function openPopup(popupElement) {
 function showProfile() {
   popupProfileName.value = profileName.textContent;
   popupProfileDescription.value = profileDesc.textContent;
-  const inputs = Array.from(popupProfile.querySelectorAll(validationSettings.inputSelector));
-  const submitButton = popupProfile.querySelector(validationSettings.submitButtonSelector);
-  toggleSubmitState (inputs, submitButton, validationSettings);
-  inputs.forEach((inputElement) => {
-    hideInputError(popupProfile, inputElement, validationSettings);
-  });
+  clearPopupForm(popupProfile);
   openPopup(popupProfile);
 }
 
 function showAddCardForm() {
   popupNewplaceForm.reset();
-  const inputs = Array.from(popupNewplace.querySelectorAll(validationSettings.inputSelector));
-  const submitButton = popupNewplace.querySelector(validationSettings.submitButtonSelector);
-  inputs.forEach((inputElement) => {
-    hideInputError(popupNewplace, inputElement, validationSettings);
-  });
-  toggleSubmitState (inputs, submitButton, validationSettings);
+  clearPopupForm(popupNewplace);
   openPopup(popupNewplace);
 }
 
@@ -153,7 +141,7 @@ function addCardFormSubmitHandler(event) {
 }
 
 function closeOnMouseDownHandler(event) {
-  let yesClose = targetsForClose.some((element) => {
+  const yesClose = targetsForClose.some((element) => {
       return event.target.classList.contains(element);});
   if (yesClose) {
     closeOpenedPopup();

@@ -36,6 +36,15 @@ function toggleSubmitState (inputs, submitButton, settings) {
   }
 };
 
+function clearPopupForm(popup) {
+  const inputs = Array.from(popup.querySelectorAll(validationSettings.inputSelector));
+  const submitButton = popup.querySelector(validationSettings.submitButtonSelector);
+  toggleSubmitState (inputs, submitButton, validationSettings);
+  inputs.forEach((inputElement) => {
+    hideInputError(popup, inputElement, validationSettings);
+  });
+}
+
 function setEventListeners(form, settings) {
   const inputsForm = Array.from(form.querySelectorAll(settings.inputSelector));
   const submitButton = form.querySelector(settings.submitButtonSelector);

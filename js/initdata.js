@@ -25,7 +25,7 @@ const initialCards = [
   }
 ];
 
-const targetsForClose = ['popup','popup__reset','popup__submit'];
+const targetsForClose = ['popup','popup__reset'];
 
 const validationSettings = {
   formSelector: '.popup__container',
