@@ -32,9 +32,7 @@ const cardTemplate = document.querySelector('#card').content;
 
 function closeOpenedPopup() {
   const openedPopup =document.querySelector('.popup_opened');
-  if (openedPopup) {
-    closePopup(openedPopup);
-  }
+  closePopup(openedPopup);
 }
 
 function closeOnEsc(event) {
