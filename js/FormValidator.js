@@ -53,7 +53,7 @@ export default class FormValidator {
     });
   }
 
-  _clearPopupForm() {
+  clearPopupForm() {
     this._toggleSubmitState();
     this.inputs.forEach((inputElement) => {
       this._hideInputError(inputElement);
@@ -63,7 +63,6 @@ export default class FormValidator {
   enableValidation() {
     this.form.addEventListener('submit', (event) => {event.preventDefault();});
     this._setEventListeners();
-    this._clearPopupForm();
   }
 
 }

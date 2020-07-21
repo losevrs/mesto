@@ -36,4 +36,6 @@ const validationSettings = {
   errorClass: 'popup__error_visible',
 }
 
-export {initialCards, targetsForClose, validationSettings}
+const cardSelector = '#card';
+
+export {initialCards, targetsForClose, validationSettings, cardSelector}

@@ -2,35 +2,39 @@
 
 export default class Card {
   constructor (initialData, templateSelector) {
-    const template = document.querySelector(templateSelector);
+    this.template = document.querySelector(templateSelector);
+    this.showHandler = null;
+    this.deleteHandler = this._deleteCard.bind(this);
+    this.initialData = initialData;
+  }
+
+  _setCardElements(template) {
     if (template) {
       this.elementCard = template.content.cloneNode(true);
 
       this.viewPort = this.elementCard.querySelector('.photocard__viewport');
-      this.viewPort.src = initialData.link;
-      this.viewPort.alt = initialData.name;
+      this.viewPort.src = this.initialData.link;
+      this.viewPort.alt = this.initialData.name;
       this.viewPort.onerror = this._onErrorLoadImage;
 
       const deleteButton = this.elementCard.querySelector('.photocard__delete');
-      this.deleteHandler = this._deleteCard.bind(this);
       deleteButton.addEventListener('click', this.deleteHandler);
 
       const cardPlaceName = this.elementCard.querySelector('.photocard__placename');
-      cardPlaceName.textContent = initialData.name;
+      cardPlaceName.textContent = this.initialData.name;
 
       const likeButton = this.elementCard.querySelector('.photocard__like');
       likeButton.addEventListener('click', this._toggleLike);
 
-      this.showHandler = null;
     }
     else {
       console.log('Не обнаружен шаблон карточки.');
     }
-
   }
 
   // Получить элемент карточки (на вход хандлер открытие попапа для просмотра - если нужно)
   getCard (viewPortShowHandler = null) {
+    this._setCardElements(this.template);
     if (viewPortShowHandler) {
       this.showHandler = viewPortShowHandler;
       this.viewPort.addEventListener('click', viewPortShowHandler);

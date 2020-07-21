@@ -2,7 +2,7 @@
 
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
-import {validationSettings, initialCards, targetsForClose} from './initdata.js';
+import {validationSettings, initialCards, targetsForClose, cardSelector} from './initdata.js';
 
 const popupProfile = document.querySelector('.popup_profileedit');
 const popupProfileForm = popupProfile.querySelector('.popup__container');
@@ -27,6 +27,12 @@ const profileName = profileSection.querySelector('.profile__name');
 const profileDesc = profileSection.querySelector('.profile__description')
 
 const placesPhotosContainer = document.querySelector('.placesphotos');
+
+const formValidatorForProfile = new FormValidator(validationSettings, popupProfile);
+formValidatorForProfile.enableValidation();
+
+const formValidatorForNewplace = new FormValidator(validationSettings, popupNewplace);
+formValidatorForNewplace.enableValidation();
 
 function closeOpenedPopup() {
   const openedPopup =document.querySelector('.popup_opened');
@@ -56,19 +62,13 @@ function openPopup(popupElement) {
 function showProfile() {
   popupProfileName.value = profileName.textContent;
   popupProfileDescription.value = profileDesc.textContent;
-
-  const formValidatorForProfile = new FormValidator(validationSettings, popupProfile);
-  formValidatorForProfile.enableValidation();
-
+  formValidatorForProfile.clearPopupForm();
   openPopup(popupProfile);
 }
 
 function showAddCardForm() {
   popupNewplaceForm.reset();
-
-  const formValidatorForNewplace = new FormValidator(validationSettings, popupNewplace);
-  formValidatorForNewplace.enableValidation();
-
+  formValidatorForNewplace.clearPopupForm();
   openPopup(popupNewplace);
 }
 
@@ -93,7 +93,7 @@ function addCardFormSubmitHandler(event) {
     link: popupNewplaceUrl.value
   };
   event.preventDefault();
-  const newCard = new Card(cardData, '#card');
+  const newCard = new Card(cardData, cardSelector);
   placesPhotosContainer.prepend(newCard.getCard(showPhotoView));
   closePopup(popupNewplace);
 }
@@ -107,9 +107,8 @@ function closeOnMouseDownHandler(event) {
 }
 
 // Инициализация
-
 initialCards.forEach((item) => {
-    const newCard = new Card(item, '#card');
+    const newCard = new Card(item, cardSelector);
     placesPhotosContainer.append(newCard.getCard(showPhotoView));
 });
 
