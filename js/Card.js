@@ -2,10 +2,10 @@
 
 export default class Card {
   constructor (initialData, templateSelector) {
-    this.template = document.querySelector(templateSelector);
-    this.showHandler = null;
-    this.deleteHandler = this._deleteCard.bind(this);
-    this.initialData = initialData;
+    this._template = document.querySelector(templateSelector);
+    this._showHandler = null;
+    this._deleteHandler = this._deleteCard.bind(this);
+    this._initialData = initialData;
   }
 
   _setCardElements(template) {
@@ -13,15 +13,15 @@ export default class Card {
       this.elementCard = template.content.cloneNode(true);
 
       this.viewPort = this.elementCard.querySelector('.photocard__viewport');
-      this.viewPort.src = this.initialData.link;
-      this.viewPort.alt = this.initialData.name;
+      this.viewPort.src = this._initialData.link;
+      this.viewPort.alt = this._initialData.name;
       this.viewPort.onerror = this._onErrorLoadImage;
 
       const deleteButton = this.elementCard.querySelector('.photocard__delete');
-      deleteButton.addEventListener('click', this.deleteHandler);
+      deleteButton.addEventListener('click', this._deleteHandler);
 
       const cardPlaceName = this.elementCard.querySelector('.photocard__placename');
-      cardPlaceName.textContent = this.initialData.name;
+      cardPlaceName.textContent = this._initialData.name;
 
       const likeButton = this.elementCard.querySelector('.photocard__like');
       likeButton.addEventListener('click', this._toggleLike);
@@ -34,19 +34,19 @@ export default class Card {
 
   // Получить элемент карточки (на вход хандлер открытие попапа для просмотра - если нужно)
   getCard (viewPortShowHandler = null) {
-    this._setCardElements(this.template);
+    this._setCardElements(this._template);
     if (viewPortShowHandler) {
-      this.showHandler = viewPortShowHandler;
+      this._showHandler = viewPortShowHandler;
       this.viewPort.addEventListener('click', viewPortShowHandler);
     }
     return this.elementCard;
   }
 
   _deleteCardListeners(elementCard) {
-    if (this.showHandler) {
-      elementCard.querySelector('.photocard__viewport').removeEventListener('click', this.showHandler);
+    if (this._showHandler) {
+      elementCard.querySelector('.photocard__viewport').removeEventListener('click', this._showHandler);
     }
-    elementCard.querySelector('.photocard__delete').removeEventListener('click', this.deleteHandler);
+    elementCard.querySelector('.photocard__delete').removeEventListener('click', this._deleteHandler);
     elementCard.querySelector('.photocard__like').removeEventListener('click', this._toggleLike);
   }
 
