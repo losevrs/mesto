@@ -1,9 +1,13 @@
 'use strict'
 
 export default class Card {
-  constructor (initialData, templateSelector) {
+  constructor (initialData, templateSelector, viewPortShowHandler = null) {
     this._template = document.querySelector(templateSelector);
-    this._showHandler = null;
+
+    if (viewPortShowHandler) {
+      this._showHandler = viewPortShowHandler;
+    }
+
     this._deleteHandler = this._deleteCard.bind(this);
     this._initialData = initialData;
   }
@@ -33,11 +37,10 @@ export default class Card {
   }
 
   // Получить элемент карточки (на вход хандлер открытие попапа для просмотра - если нужно)
-  getCard (viewPortShowHandler = null) {
+  getCard () {
     this._setCardElements(this._template);
-    if (viewPortShowHandler) {
-      this._showHandler = viewPortShowHandler;
-      this.viewPort.addEventListener('click', viewPortShowHandler);
+    if (this._showHandler) {
+      this.viewPort.addEventListener('click', (event) => this._showHandler(event));
     }
     return this.elementCard;
   }
