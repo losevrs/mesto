@@ -63,6 +63,7 @@ export default class Card {
 
   // Если не загрузится картинка
   _onErrorLoadImage (event) {
+    //this.viewPort.onerror = null;
     event.target.src = './images/placesphotos/onerror.jpg';
   }
 

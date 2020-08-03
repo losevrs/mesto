@@ -1,8 +1,8 @@
 'use strict';
 
-import Popup from './popup.js';
+import Popup from './Popup.js';
 import FormValidator from './FormValidator.js';
-import {validationSettings} from './initdata.js';
+import {validationSettings} from '../initdata.js';
 
 export default class PopupWithForm extends Popup {
   constructor (popupSelector, onSubmit, inputSelector = '.popup__input', formSelecor = '.popup__container') {

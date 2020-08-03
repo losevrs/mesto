@@ -1,11 +1,12 @@
 'use strict';
+import './index.css'
 
-import Card from './Card.js';
-import UserInfo from './UserInfo.js';
-import Section from './Section.js';
-import PopupWithImage from './PopupWithImage.js';
-import PopupWithForm from './PopupWithForm.js';
-import {initialCards, cardSelector} from './initdata.js';
+import Card from '../js/components/Card.js';
+import UserInfo from '../js/components/UserInfo.js';
+import Section from '../js/components/Section.js';
+import PopupWithImage from '../js/components/PopupWithImage.js';
+import PopupWithForm from '../js/components/PopupWithForm.js';
+import {initialCards, cardSelector} from '../js/initdata.js';
 
 // Секция для фоток
 const cardsInit = {
