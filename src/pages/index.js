@@ -1,25 +1,33 @@
 'use strict';
 import './index.css'
 
-import Card from '../js/components/Card.js';
-import UserInfo from '../js/components/UserInfo.js';
-import Section from '../js/components/Section.js';
-import PopupWithImage from '../js/components/PopupWithImage.js';
-import PopupWithForm from '../js/components/PopupWithForm.js';
-import {initialCards, cardSelector} from '../js/initdata.js';
+import Card from '../components/Card.js';
+import UserInfo from '../components/UserInfo.js';
+import Section from '../components/Section.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import FormValidator from '../components//FormValidator.js';
+import {initialCards, cardSelector, validationSettings} from '../utils/initdata.js';
 
 // Секция для фоток
+function createNewCard(item) {
+  const newCard = new Card(item, cardSelector, (event, viewportDescription) => {
+    const {srcViewport, altViewport} = viewportDescription;
+    const imageData = {
+      src: srcViewport,
+      alt: altViewport
+    }
+    imageViewPopup.open(imageData);
+  });
+  return newCard.getCard();
+}
+
 const cardsInit = {
   items: initialCards,
-  renderer: (item) => {
-    const newCard = new Card(item, cardSelector, (event) => {
-      const imageData = {
-        src: event.target.src,
-        alt: event.target.alt,
-      }
-      imageViewPopup.open(imageData);
-    });
-    return newCard.getCard();
+  renderer: (items, container) => {
+    items.forEach((item) => {
+      container.append(createNewCard(item));
+    })
   }
 }
 
@@ -29,31 +37,46 @@ const placesPhotos = new Section(cardsInit,'.placesphotos');
 const userInfo = new UserInfo({name: '.profile__name',
                                description: '.profile__description'});
 
-userInfo.setAddCardHandler(() => {popupNewplace.open();});
+UserInfo.addButton.addEventListener('click', () => {
+  validationMewplace.clearPopupForm();
+  popupNewplace.open();
+});
 
-userInfo.setEditProfileHandler(() => {
+UserInfo.editButton.addEventListener('click',() => {
   const profileData = userInfo.getUserInfo();
   popupProfile.setInputValues( [profileData.name, profileData.description] );
+  validationProfile.clearPopupForm();
   popupProfile.open();
 });
 
 // Редактирование рофиля с валидацией
-const popupProfile = new PopupWithForm('.popup_profileedit', (event) => {
+const popupProfile = new PopupWithForm('.popup_profileedit', (event, inputValues) => {
   event.preventDefault();
-  userInfo.setUserInfo({name: popupProfile.getInputValueByName('name'),
-                        description: popupProfile.getInputValueByName('description')});
+  const { name, description } = inputValues;
+  userInfo.setUserInfo({'name': name,
+                        'description': description});
   popupProfile.close();
 });
+
+const validationProfile = new FormValidator(validationSettings, popupProfile.getPopup());
+
 popupProfile.preparePopup();
+validationProfile.enableValidation();
 
 // Добавление карточки с валидацией
-const popupNewplace = new PopupWithForm('.popup_newplace', (event) => {
+const popupNewplace = new PopupWithForm('.popup_newplace', (event, inputValues) => {
   event.preventDefault();
-  placesPhotos.addItem({name: popupNewplace.getInputValueByName('photoname'),
-                        link: popupNewplace.getInputValueByName('photourl')});
+  const { photoname, photourl } = inputValues;
+  const item = {name: photoname,
+                link: photourl}
+  placesPhotos.addItem(createNewCard(item));
   popupNewplace.close();
 });
+
+const validationMewplace = new FormValidator(validationSettings, popupNewplace.getPopup());
+
 popupNewplace.preparePopup();
+validationMewplace.enableValidation();
 
 // Просмотр фото карточки
 const imageViewPopup = new PopupWithImage('.popup_view');

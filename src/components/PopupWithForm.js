@@ -1,8 +1,4 @@
-'use strict';
-
 import Popup from './Popup.js';
-import FormValidator from './FormValidator.js';
-import {validationSettings} from '../initdata.js';
 
 export default class PopupWithForm extends Popup {
   constructor (popupSelector, onSubmit, inputSelector = '.popup__input', formSelecor = '.popup__container') {
@@ -12,8 +8,6 @@ export default class PopupWithForm extends Popup {
     this._inputs = Array.from(this._popupForm.querySelectorAll(inputSelector));
     this._submit = onSubmit;
     this._submitButton = this._popupForm.querySelector('.popup__submit') || null;
-    this._validationObject = new FormValidator(validationSettings, this._popupElement);
-    this._validationObject.enableValidation();
   }
 
   _submitButtonSwitch(on = true) {
@@ -24,9 +18,10 @@ export default class PopupWithForm extends Popup {
 
   _setEventListeners() {
     super._setEventListeners();
-    this._popupForm.addEventListener('submit', (event) => this._submit(event));
+    this._popupForm.addEventListener('submit', (event) => this._submit(event, this._getInputValues()));
   }
 
+  // Инициализирует значения инпутов из входного массива значений при необходимости
   setInputValues(inputValues) {
     let i = 0;
     this._inputs.forEach((inputElement) => {
@@ -39,14 +34,17 @@ export default class PopupWithForm extends Popup {
     });
   }
 
-  getInputValues() {
-    const returnInputValues = [];
+  // Возвращает значения инпутов в формате - имя_инпута : значение_инпута
+  _getInputValues() {
+    const returnInputValues = {};
     this._inputs.forEach((inputElement) => {
       returnInputValues[inputElement.name] = inputElement.value;
     });
     return returnInputValues;
   }
 
+  // Функции могут быть полезны при возникновении необходимости работать с каким либо
+  // инпутом по имени отдельно.
   _getInputByName(name) {
     return this._inputs.find((element) => {
       return (element.name === name) ? true : false;
@@ -65,20 +63,8 @@ export default class PopupWithForm extends Popup {
     }
   }
 
-  attachValidationObject(validationObject) {
-    this._validationObject = validationObject;
-  }
-
-  open() {
-    if (this._validationObject) {
-      this._validationObject.clearPopupForm();
-    }
-    super.open();
-  }
-
   close() {
     this._popupForm.reset();
-
     this._submitButtonSwitch(false); // Иначе срабатывает двойной Enter как два сабмита из за
                                      // плавного закрытия - 0.2s
     super.close();

@@ -1,5 +1,3 @@
-'use strict';
-
 export default class Popup {
   constructor(popupSelector, openedPopupClass = 'popup_opened') {
     this._popupSelector = popupSelector;
@@ -27,6 +25,7 @@ export default class Popup {
     this._setEventListeners();
   }
 
+  // Возвращает сам элемент popup-а для, например, привязки к валидатору.
   getPopup() {
     return this._popupElement;
   }

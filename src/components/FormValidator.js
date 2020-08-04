@@ -1,5 +1,3 @@
-'use strict';
-
 export default class FormValidator {
   constructor (validationSettings, formElement) {
     this.form = formElement;

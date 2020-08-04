@@ -1,11 +1,11 @@
-'use strict'
-
 export default class Card {
   constructor (initialData, templateSelector, viewPortShowHandler = null) {
     this._template = document.querySelector(templateSelector);
 
     if (viewPortShowHandler) {
-      this._showHandler = viewPortShowHandler;
+      this._showHandler = (event) => viewPortShowHandler(event, this._getViewportDescription());
+    } else {
+      this._showHandler = null;
     }
 
     this._deleteHandler = this._deleteCard.bind(this);
@@ -20,6 +20,9 @@ export default class Card {
       this.viewPort.src = this._initialData.link;
       this.viewPort.alt = this._initialData.name;
       this.viewPort.onerror = this._onErrorLoadImage;
+      if (this._showHandler) {
+        this.viewPort.addEventListener('click', this._showHandler);
+      }
 
       const deleteButton = this.elementCard.querySelector('.photocard__delete');
       deleteButton.addEventListener('click', this._deleteHandler);
@@ -36,12 +39,18 @@ export default class Card {
     }
   }
 
+  // Возвращает описание карточки для просмотра
+  _getViewportDescription()
+  {
+    return {
+      srcViewport: this.viewPort.src,
+      altViewport: this.viewPort.alt
+    }
+  }
+
   // Получить элемент карточки (на вход хандлер открытие попапа для просмотра - если нужно)
   getCard () {
     this._setCardElements(this._template);
-    if (this._showHandler) {
-      this.viewPort.addEventListener('click', (event) => this._showHandler(event));
-    }
     return this.elementCard;
   }
 
