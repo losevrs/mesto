@@ -73,10 +73,10 @@ const popupNewplace = new PopupWithForm('.popup_newplace', (event, inputValues) 
   popupNewplace.close();
 });
 
-const validationMewplace = new FormValidator(validationSettings, popupNewplace.getPopup());
+const validationNewplace = new FormValidator(validationSettings, popupNewplace.getPopup());
 
 popupNewplace.preparePopup();
-validationMewplace.enableValidation();
+validationNewplace.enableValidation();
 
 // Просмотр фото карточки
 const imageViewPopup = new PopupWithImage('.popup_view');
