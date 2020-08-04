@@ -38,7 +38,7 @@ const userInfo = new UserInfo({name: '.profile__name',
                                description: '.profile__description'});
 
 UserInfo.addButton.addEventListener('click', () => {
-  validationMewplace.clearPopupForm();
+  validationNewplace.clearPopupForm();
   popupNewplace.open();
 });
 
