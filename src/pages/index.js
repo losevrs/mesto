@@ -6,7 +6,7 @@ import UserInfo from '../components/UserInfo.js';
 import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
-import FormValidator from '../components//FormValidator.js';
+import FormValidator from '../components/FormValidator.js';
 import {initialCards, cardSelector, validationSettings} from '../utils/initdata.js';
 
 // Секция для фоток
@@ -24,10 +24,8 @@ function createNewCard(item) {
 
 const cardsInit = {
   items: initialCards,
-  renderer: (items, container) => {
-    items.forEach((item) => {
+  renderer: (item, container) => {
       container.append(createNewCard(item));
-    })
   }
 }
 
@@ -36,13 +34,15 @@ const placesPhotos = new Section(cardsInit,'.placesphotos');
 // Отображение данных профиля
 const userInfo = new UserInfo({name: '.profile__name',
                                description: '.profile__description'});
+const editButton = UserInfo.profileSection.querySelector('.profile__editbutton');
+const addButton = UserInfo.profileSection.querySelector('.profile__addbutton');
 
-UserInfo.addButton.addEventListener('click', () => {
+addButton.addEventListener('click', () => {
   validationNewplace.clearPopupForm();
-  popupNewplace.open();
+  popupNewPlace.open();
 });
 
-UserInfo.editButton.addEventListener('click',() => {
+editButton.addEventListener('click',() => {
   const profileData = userInfo.getUserInfo();
   popupProfile.setInputValues( [profileData.name, profileData.description] );
   validationProfile.clearPopupForm();
@@ -64,18 +64,18 @@ popupProfile.preparePopup();
 validationProfile.enableValidation();
 
 // Добавление карточки с валидацией
-const popupNewplace = new PopupWithForm('.popup_newplace', (event, inputValues) => {
+const popupNewPlace = new PopupWithForm('.popup_newplace', (event, inputValues) => {
   event.preventDefault();
   const { photoname, photourl } = inputValues;
   const item = {name: photoname,
                 link: photourl}
   placesPhotos.addItem(createNewCard(item));
-  popupNewplace.close();
+  popupNewPlace.close();
 });
 
-const validationNewplace = new FormValidator(validationSettings, popupNewplace.getPopup());
+const validationNewplace = new FormValidator(validationSettings, popupNewPlace.getPopup());
 
-popupNewplace.preparePopup();
+popupNewPlace.preparePopup();
 validationNewplace.enableValidation();
 
 // Просмотр фото карточки

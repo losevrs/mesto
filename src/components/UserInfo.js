@@ -1,8 +1,6 @@
 export default class UserInfo {
 
   static profileSection = document.querySelector('.profile');
-  static editButton = UserInfo.profileSection.querySelector('.profile__editbutton');
-  static addButton = UserInfo.profileSection.querySelector('.profile__addbutton');
 
   constructor ({name, description}) {
     this._profileName = UserInfo.profileSection.querySelector(name);
