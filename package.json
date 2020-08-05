@@ -5,7 +5,8 @@
   "main": "webpack.config.js",
   "scripts": {
     "dev": "npx webpack-dev-server --open --watch",
-    "build": "rm -rf dist && npx webpack --mode production"
+    "build": "rm -rf dist && npx webpack --mode production",
+    "builddev": "rm -rf dist && npx webpack --mode development"
   },
   "repository": {
     "type": "git",

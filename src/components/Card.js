@@ -3,7 +3,7 @@ export default class Card {
     this._template = document.querySelector(templateSelector);
 
     if (viewPortShowHandler) {
-      this._showHandler = (event) => viewPortShowHandler(event, this._getViewportDescription());
+      this._showHandler = () => viewPortShowHandler(this._getViewportDescription());
     } else {
       this._showHandler = null;
     }

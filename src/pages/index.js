@@ -11,7 +11,7 @@ import {initialCards, cardSelector, validationSettings} from '../utils/initdata.
 
 // Секция для фоток
 function createNewCard(item) {
-  const newCard = new Card(item, cardSelector, (event, viewportDescription) => {
+  const newCard = new Card(item, cardSelector, (viewportDescription) => {
     const {srcViewport, altViewport} = viewportDescription;
     const imageData = {
       src: srcViewport,
@@ -23,9 +23,9 @@ function createNewCard(item) {
 }
 
 const cardsInit = {
-  items: initialCards,
-  renderer: (item, container) => {
-      container.append(createNewCard(item));
+  'items': initialCards,
+  'renderer': function renderer(item) {
+      this.addItem(createNewCard(item));
   }
 }
 
@@ -50,8 +50,7 @@ editButton.addEventListener('click',() => {
 });
 
 // Редактирование рофиля с валидацией
-const popupProfile = new PopupWithForm('.popup_profileedit', (event, inputValues) => {
-  event.preventDefault();
+const popupProfile = new PopupWithForm('.popup_profileedit', (inputValues) => {
   const { name, description } = inputValues;
   userInfo.setUserInfo({'name': name,
                         'description': description});
@@ -64,8 +63,7 @@ popupProfile.preparePopup();
 validationProfile.enableValidation();
 
 // Добавление карточки с валидацией
-const popupNewPlace = new PopupWithForm('.popup_newplace', (event, inputValues) => {
-  event.preventDefault();
+const popupNewPlace = new PopupWithForm('.popup_newplace', (inputValues) => {
   const { photoname, photourl } = inputValues;
   const item = {name: photoname,
                 link: photourl}
