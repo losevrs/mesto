@@ -67,6 +67,14 @@
         </form>
       </section>
 
+      <section class="popup popup_confirm">
+        <div class="popup__question">
+          <h2 class="popup__text">Вы уверены?</h2>
+          <button class="popup__submit" type="submit">Да</button>
+          <button class="popup__reset" type="button"></button>
+        </div>
+      </section>
+
       <section class="popup popup_view">
         <div class="popup__photoview">
           <img class="popup__image" alt="Просмотр фото" src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg">
@@ -81,7 +89,10 @@
           <button class="photocard__delete" type="button"></button>
           <div class="photocard__description">
             <h2 class="photocard__placename">Карачаево-Черкесия</h2>
-            <button class="photocard__like" type="button"></button>
+            <div class="photocard__likes">
+              <button class="photocard__like" type="button"></button>
+              <span class="photocard__count">0</span>
+            </div>
           </div>
         </div>
       </template>

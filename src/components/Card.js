@@ -1,3 +1,5 @@
+import PopupConfirm from '../components/PopupConfirm.js';
+
 export default class Card {
   constructor (initialData, templateSelector, viewPortShowHandler = null) {
     this._template = document.querySelector(templateSelector);
@@ -10,6 +12,9 @@ export default class Card {
 
     this._deleteHandler = this._deleteCard.bind(this);
     this._initialData = initialData;
+
+    this._popupConfirm = new PopupConfirm('.popup_confirm', '.popup__question');
+    this._popupConfirm.preparePopup();
   }
 
   _setCardElements(template) {
@@ -25,7 +30,13 @@ export default class Card {
       }
 
       const deleteButton = this.elementCard.querySelector('.photocard__delete');
-      deleteButton.addEventListener('click', this._deleteHandler);
+      deleteButton.addEventListener('click', (event) => {
+                                                  this._popupConfirm.setReferer = event.target.closest('.photocard');
+                                                  this._popupConfirm.setActionOnYes(() => {
+                                                                                           this._deleteCard(event,this._popupConfirm.setReferer);
+                                                                                           this._popupConfirm.close();
+                                                                                          });
+                                                  this._popupConfirm.open();} );
 
       const cardPlaceName = this.elementCard.querySelector('.photocard__placename');
       cardPlaceName.textContent = this._initialData.name;
@@ -63,16 +74,14 @@ export default class Card {
   }
 
   // Удаляем себя
-  _deleteCard (event) {
-    const card = event.currentTarget.closest('.photocard');
-    this._deleteCardListeners(card);
+  _deleteCard (event, card) {
     event.stopPropagation();
+    this._deleteCardListeners(card);
     card.remove();
   }
 
   // Если не загрузится картинка
   _onErrorLoadImage (event) {
-    //this.viewPort.onerror = null;
     event.target.src = './images/placesphotos/onerror.jpg';
   }
 
