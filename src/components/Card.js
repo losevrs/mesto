@@ -1,4 +1,5 @@
 import PopupConfirm from '../components/PopupConfirm.js';
+import onErrorMmage  from '../images/placesphotos/onerror.jpg';
 
 export default class Card {
   constructor (initialData, templateSelector, viewPortShowHandler = null) {
@@ -82,7 +83,7 @@ export default class Card {
 
   // Если не загрузится картинка
   _onErrorLoadImage (event) {
-    event.target.src = './images/placesphotos/onerror.jpg';
+    event.target.src = onErrorMmage;
   }
 
   // Обработка лайка
