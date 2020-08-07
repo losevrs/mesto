@@ -4,3 +4,8 @@
   flex: 0 0 120px;
   border-radius: 50%;
 }
+
+.profile__avatar:hover {
+  filter: brightness(20%);
+  cursor: url('../../../images/profile/avaEdit.svg'), pointer;
+}
