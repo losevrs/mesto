@@ -5,7 +5,7 @@ export default class PopupConfirm extends Popup {
     super(popupSelector);
     this._popupBody = this._popupElement.querySelector(popupBodySelector);
     this.popupReferer = null;
-    this._actionButton = this._popupBody.querySelector('.popup__submit') || null;
+    this._actionButton = this._popupBody.querySelector('.popup__submitquestion') || null;
     this.onEnter = () => {this._handlePressEnter(event);}
   }
 

@@ -33,9 +33,18 @@ const placesPhotos = new Section(cardsInit,'.placesphotos');
 
 // Отображение данных профиля
 const userInfo = new UserInfo({name: '.profile__name',
-                               description: '.profile__description'});
+                               description: '.profile__description',
+                               avaurl: '.profile__avatar'});
+
 const editButton = UserInfo.profileSection.querySelector('.profile__editbutton');
 const addButton = UserInfo.profileSection.querySelector('.profile__addbutton');
+
+userInfo.setAvatarEditor(() => {
+  const profileData = userInfo.getUserInfo();
+  popupAvaEditor.setInputValues( [profileData.avaurl] );
+  validationAvatar.clearPopupForm();
+  popupAvaEditor.open();
+});
 
 addButton.addEventListener('click', () => {
   validationNewplace.clearPopupForm();
@@ -79,6 +88,18 @@ validationNewplace.enableValidation();
 // Просмотр фото карточки
 const imageViewPopup = new PopupWithImage('.popup_view');
 imageViewPopup.preparePopup();
+
+// Редактор аватара
+const popupAvaEditor = new PopupWithForm('.popup_newavatar', (inputValues) => {
+  const { avaurl } = inputValues;
+  userInfo.setUserInfo({'avaurl': avaurl});
+  popupAvaEditor.close();
+});
+
+const validationAvatar = new FormValidator(validationSettings, popupAvaEditor.getPopup());
+
+popupAvaEditor.preparePopup();
+validationAvatar.enableValidation();
 
 // Инициализация
 placesPhotos.renderItems();

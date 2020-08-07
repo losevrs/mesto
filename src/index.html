@@ -67,10 +67,22 @@
         </form>
       </section>
 
+      <section class="popup popup_newavatar">
+        <form class="popup__container popup_avaeditor" action="#" method="POST" name="popupavatar" novalidate>
+          <h2 class="popup__title">Обновить аватар</h2>
+
+          <input class="popup__input popup__input_avaurl" type="url" name="avaurl" placeholder="Ссылка на картинку" required>
+          <span id="popup__input_avaurl_error" class="popup__input_type_error"></span>
+
+          <button class="popup__submit" type="submit">Сохранить</button>
+          <button class="popup__reset" type="button"></button>
+        </form>
+      </section>
+
       <section class="popup popup_confirm">
         <div class="popup__question">
           <h2 class="popup__text">Вы уверены?</h2>
-          <button class="popup__submit" type="submit">Да</button>
+          <button class="popup__submitquestion" type="button">Да</button>
           <button class="popup__reset" type="button"></button>
         </div>
       </section>

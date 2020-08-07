@@ -3,9 +3,8 @@
 @import url('./__text/popup__text.css');
 @import url('./__input/popup__input.css');
 @import url('./__input/_type/popup__input_type_error.css');
-@import url('./__input/_description/popup__input_description.css');
-@import url('./__input/_photourl/popup__input_photourl.css');
 @import url('./__submit/popup__submit.css');
+@import url('./__submitquestion/popup__submitquestion.css');
 @import url('./__submit/_disabled/popup__submit_disabled.css');
 @import url('./__reset/popup__reset.css');
 
@@ -15,6 +14,7 @@
 
 @import url('./__question/popup__question.css');
 
+@import url('./_avaeditor/popup_avaeditor.css');
 @import url('./__error/_visible/popup__error_visible.css');
 
 .popup {
