@@ -9,6 +9,16 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import FormValidator from '../components/FormValidator.js';
 import {initialCards, cardSelector, validationSettings} from '../utils/initdata.js';
 
+import Api from '../components/Api.js'
+
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-12/',
+  headers: {
+    authorization: 'd6770652-b28e-4007-834e-116536b370da',
+    'Content-Type': 'application/json'
+  }
+});
+
 // Секция для фоток
 function createNewCard(item) {
   const newCard = new Card(item, cardSelector, (viewportDescription) => {
@@ -34,14 +44,14 @@ const placesPhotos = new Section(cardsInit,'.placesphotos');
 // Отображение данных профиля
 const userInfo = new UserInfo({name: '.profile__name',
                                description: '.profile__description',
-                               avaurl: '.profile__avatar'});
+                               avatar: '.profile__avatar'});
 
 const editButton = UserInfo.profileSection.querySelector('.profile__editbutton');
 const addButton = UserInfo.profileSection.querySelector('.profile__addbutton');
 
 userInfo.setAvatarEditor(() => {
   const profileData = userInfo.getUserInfo();
-  popupAvaEditor.setInputValues( [profileData.avaurl] );
+  popupAvaEditor.setInputValues( [profileData.avatar] );
   validationAvatar.clearPopupForm();
   popupAvaEditor.open();
 });
@@ -91,8 +101,8 @@ imageViewPopup.preparePopup();
 
 // Редактор аватара
 const popupAvaEditor = new PopupWithForm('.popup_newavatar', (inputValues) => {
-  const { avaurl } = inputValues;
-  userInfo.setUserInfo({'avaurl': avaurl});
+  const { avatar } = inputValues;
+  userInfo.setUserInfo({'avatar': avatar});
   popupAvaEditor.close();
 });
 
@@ -104,4 +114,8 @@ validationAvatar.enableValidation();
 // Инициализация
 placesPhotos.renderItems();
 
+api.getUserInfo()
+.then (data => console.log(data));
+
+console.log(api.getInitialCards());
 
