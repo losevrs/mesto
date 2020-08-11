@@ -4,18 +4,15 @@ export default class UserInfo {
 
   static profileSection = document.querySelector('.profile');
 
-  constructor ({name, description, avatar}) {
+  constructor ({name, about, avatar}) {
     this._profileName = UserInfo.profileSection.querySelector(name);
-    this._profileDesc = UserInfo.profileSection.querySelector(description);
+    this._profileDesc = UserInfo.profileSection.querySelector(about);
     this._profileAvatar = UserInfo.profileSection.querySelector(avatar);
     this._profileAvatar.onerror = this._onErrorLoadImage;
-    this._userInfo = { name: '', description: '', avatar: ''};
+    this._userInfo = {};
   }
 
   getUserInfo() {
-    this._userInfo.name = this._profileName.textContent;
-    this._userInfo.description = this._profileDesc.textContent;
-    this._userInfo.avatar = this._profileAvatar.src;
     return this._userInfo;
   }
 
@@ -26,15 +23,16 @@ export default class UserInfo {
   }
 
   setUserInfo(userInfo) {
-    const {name, description, avatar} = userInfo;
-    if (name) {
+    this._userInfo = userInfo;
+
+    if (userInfo.name) {
       this._profileName.textContent = userInfo.name;
     }
-    if (description) {
-      this._profileDesc.textContent = userInfo.description;
+    if (userInfo.about) {
+      this._profileDesc.textContent = userInfo.about;
     }
-    if (avatar) {
-      this._profileAvatar.src = avatar;
+    if (userInfo.avatar) {
+      this._profileAvatar.src = userInfo.avatar;
     }
   }
 

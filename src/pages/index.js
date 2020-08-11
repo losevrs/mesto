@@ -9,15 +9,7 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import FormValidator from '../components/FormValidator.js';
 import {initialCards, cardSelector, validationSettings} from '../utils/initdata.js';
 
-import Api from '../components/Api.js'
-
-const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-12/',
-  headers: {
-    authorization: 'd6770652-b28e-4007-834e-116536b370da',
-    'Content-Type': 'application/json'
-  }
-});
+import {api} from '../components/Api.js'
 
 // Секция для фоток
 function createNewCard(item) {
@@ -33,18 +25,34 @@ function createNewCard(item) {
 }
 
 const cardsInit = {
-  'items': initialCards,
   'renderer': function renderer(item) {
       this.addItem(createNewCard(item));
   }
 }
+let placesPhotos = null;
 
-const placesPhotos = new Section(cardsInit,'.placesphotos');
+// Инициализация секции
+api.getInitialCards()
+.then (data => {cardsInit['items'] = data;
+                return cardsInit;
+})
+.then (data => {
+  placesPhotos = new Section(data,'.placesphotos');
+  placesPhotos.renderItems();
+})
+.catch((err) => {
+  console.log(err);
+});
 
 // Отображение данных профиля
 const userInfo = new UserInfo({name: '.profile__name',
-                               description: '.profile__description',
+                               about: '.profile__about',
                                avatar: '.profile__avatar'});
+api.getUserInfo()
+.then (data => userInfo.setUserInfo(data))
+.catch((err) => {
+  console.log(err);
+});
 
 const editButton = UserInfo.profileSection.querySelector('.profile__editbutton');
 const addButton = UserInfo.profileSection.querySelector('.profile__addbutton');
@@ -63,16 +71,16 @@ addButton.addEventListener('click', () => {
 
 editButton.addEventListener('click',() => {
   const profileData = userInfo.getUserInfo();
-  popupProfile.setInputValues( [profileData.name, profileData.description] );
+  popupProfile.setInputValues( [profileData.name, profileData.about] );
   validationProfile.clearPopupForm();
   popupProfile.open();
 });
 
 // Редактирование рофиля с валидацией
 const popupProfile = new PopupWithForm('.popup_profileedit', (inputValues) => {
-  const { name, description } = inputValues;
+  const { name, about } = inputValues;
   userInfo.setUserInfo({'name': name,
-                        'description': description});
+                        'about': about});
   popupProfile.close();
 });
 
@@ -111,11 +119,7 @@ const validationAvatar = new FormValidator(validationSettings, popupAvaEditor.ge
 popupAvaEditor.preparePopup();
 validationAvatar.enableValidation();
 
-// Инициализация
-placesPhotos.renderItems();
 
-api.getUserInfo()
-.then (data => console.log(data));
 
-console.log(api.getInitialCards());
+
 
