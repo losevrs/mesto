@@ -2,7 +2,7 @@ import PopupConfirm from '../components/PopupConfirm.js';
 import onErrorImage  from '../images/placesphotos/onerror.jpg';
 
 export default class Card {
-  constructor (initialData, templateSelector, viewPortShowHandler = null) {
+  constructor (initialData, templateSelector, myId, viewPortShowHandler = null) {
     this._template = document.querySelector(templateSelector);
 
     if (viewPortShowHandler) {
@@ -13,6 +13,7 @@ export default class Card {
 
     this._deleteHandler = this._deleteCard.bind(this);
     this._initialData = initialData;
+    this._myId = myId;
 
     this._popupConfirm = new PopupConfirm('.popup_confirm', '.popup__question');
     this._popupConfirm.preparePopup();

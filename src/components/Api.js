@@ -3,6 +3,7 @@ export default class Api {
     this._options = options;
   }
 
+  // Запрос к серверу - по умолчанию GET
   serverRequest(urlSuffix, method = 'GET', body = undefined) {
     return fetch(this._options.baseUrl+urlSuffix, {
       method: method,
@@ -23,17 +24,20 @@ export default class Api {
     });
   }
 
+  // Профиль пользователя
   getUserInfo() {
     return this.serverRequest('users/me');
-  }
-
-  getInitialCards() {
-    return this.serverRequest('cards');
   }
 
   saveProfile(profile) {
     return this.serverRequest('users/me', 'PATCH', profile);
   }
+
+  // Инициализация карточек
+  getInitialCards() {
+    return this.serverRequest('cards');
+  }
+
 }
 
 const api = new Api({

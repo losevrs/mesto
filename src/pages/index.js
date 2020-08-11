@@ -12,8 +12,8 @@ import {cardSelector, validationSettings} from '../utils/initdata.js';
 import {api} from '../components/Api.js'
 
 // Секция для фоток
-function createNewCard(item) {
-  const newCard = new Card(item, cardSelector, (viewportDescription) => {
+function createNewCard(item, id) {
+  const newCard = new Card(item, cardSelector, id, (viewportDescription) => {
     const {srcViewport, altViewport} = viewportDescription;
     const imageData = {
       src: srcViewport,
@@ -26,7 +26,7 @@ function createNewCard(item) {
 
 const cardsInit = {
   'renderer': function renderer(item) {
-      this.addItem(createNewCard(item));
+      this.addItem(createNewCard(item, userInfo.getMyId()));
   }
 }
 let placesPhotos = null;
@@ -99,7 +99,7 @@ const popupNewPlace = new PopupWithForm('.popup_newplace', (inputValues) => {
   const { photoname, photourl } = inputValues;
   const item = {name: photoname,
                 link: photourl}
-  placesPhotos.addItem(createNewCard(item));
+  placesPhotos.addItem(createNewCard(item, userInfo.getMyId()));
   popupNewPlace.close();
 });
 popupNewPlace.preparePopup();

@@ -12,6 +12,10 @@ export default class UserInfo {
     this._userInfo = {};
   }
 
+  getMyId() {
+    return this._userInfo._id;
+  }
+
   getUserInfo() {
     return this._userInfo;
   }
