@@ -14,6 +14,7 @@ export default class Card {
     this._deleteHandler = this._deleteCard.bind(this);
     this._initialData = initialData;
     this._myId = myId;
+    this._canAddDelete = this._initialData.owner._id === this._myId;
 
     this._popupConfirm = new PopupConfirm('.popup_confirm', '.popup__question');
     this._popupConfirm.preparePopup();
@@ -31,14 +32,17 @@ export default class Card {
         this.viewPort.addEventListener('click', this._showHandler);
       }
 
-      const deleteButton = this.elementCard.querySelector('.photocard__delete');
-      deleteButton.addEventListener('click', (event) => {
-                                                  this._popupConfirm.setReferer = event.target.closest('.photocard');
-                                                  this._popupConfirm.setActionOnYes(() => {
-                                                                                           this._deleteCard(event,this._popupConfirm.setReferer);
-                                                                                           this._popupConfirm.close();
-                                                                                          });
-                                                  this._popupConfirm.open();} );
+      if (this._canAddDelete) {
+        const deleteButton = this.elementCard.querySelector('.photocard__delete');
+        deleteButton.classList.add('photocard__delete_show');
+        deleteButton.addEventListener('click', (event) => {
+                                                    this._popupConfirm.setReferer = event.target.closest('.photocard');
+                                                    this._popupConfirm.setActionOnYes(() => {
+                                                                                             this._deleteCard(event,this._popupConfirm.setReferer);
+                                                                                             this._popupConfirm.close();
+                                                                                            });
+                                                    this._popupConfirm.open();} );
+      }
 
       const cardPlaceName = this.elementCard.querySelector('.photocard__placename');
       cardPlaceName.textContent = this._initialData.name;

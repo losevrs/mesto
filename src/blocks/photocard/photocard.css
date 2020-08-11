@@ -1,4 +1,5 @@
 @import url('./__delete/photocard__delete.css');
+@import url('./__delete/_show/photocard__delete_show.css');
 @import url('./__viewport/photocard__viewport.css');
 @import url('./__description/photocard__description.css');
 @import url('./__placename/photocard__placename.css');
