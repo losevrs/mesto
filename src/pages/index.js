@@ -79,8 +79,14 @@ editButton.addEventListener('click',() => {
 // Редактирование рофиля с валидацией
 const popupProfile = new PopupWithForm('.popup_profileedit', (inputValues) => {
   const { name, about } = inputValues;
-  userInfo.setUserInfo({'name': name,
-                        'about': about});
+  api.saveProfile({'name': name, 'about': about})
+  .then ((data) => {
+    const { name, about } = data;
+    userInfo.setUserInfo({'name': name, 'about': about});
+  })
+  .catch((err) => {
+    console.log(err);
+  });
   popupProfile.close();
 });
 popupProfile.preparePopup();

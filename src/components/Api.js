@@ -7,9 +7,10 @@ export default class Api {
     return fetch(this._options.baseUrl+urlSuffix, {
       method: method,
       headers: {
-        authorization: this._options.headers.authorization
+        authorization: this._options.headers.authorization,
+        'Content-Type': this._options.headers['Content-Type']
       },
-      body: body
+      body: JSON.stringify(body)
     })
     .then(response => {
       if (response.ok) {
@@ -28,6 +29,10 @@ export default class Api {
 
   getInitialCards() {
     return this.serverRequest('cards');
+  }
+
+  saveProfile(profile) {
+    return this.serverRequest('users/me', 'PATCH', profile);
   }
 }
 
