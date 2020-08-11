@@ -7,7 +7,7 @@ import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import FormValidator from '../components/FormValidator.js';
-import {initialCards, cardSelector, validationSettings} from '../utils/initdata.js';
+import {cardSelector, validationSettings} from '../utils/initdata.js';
 
 import {api} from '../components/Api.js'
 
@@ -83,10 +83,9 @@ const popupProfile = new PopupWithForm('.popup_profileedit', (inputValues) => {
                         'about': about});
   popupProfile.close();
 });
+popupProfile.preparePopup();
 
 const validationProfile = new FormValidator(validationSettings, popupProfile.getPopup());
-
-popupProfile.preparePopup();
 validationProfile.enableValidation();
 
 // Добавление карточки с валидацией
@@ -97,10 +96,9 @@ const popupNewPlace = new PopupWithForm('.popup_newplace', (inputValues) => {
   placesPhotos.addItem(createNewCard(item));
   popupNewPlace.close();
 });
+popupNewPlace.preparePopup();
 
 const validationNewplace = new FormValidator(validationSettings, popupNewPlace.getPopup());
-
-popupNewPlace.preparePopup();
 validationNewplace.enableValidation();
 
 // Просмотр фото карточки
@@ -113,10 +111,9 @@ const popupAvaEditor = new PopupWithForm('.popup_newavatar', (inputValues) => {
   userInfo.setUserInfo({'avatar': avatar});
   popupAvaEditor.close();
 });
+popupAvaEditor.preparePopup();
 
 const validationAvatar = new FormValidator(validationSettings, popupAvaEditor.getPopup());
-
-popupAvaEditor.preparePopup();
 validationAvatar.enableValidation();
 
 

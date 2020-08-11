@@ -3,11 +3,13 @@ export default class Api {
     this._options = options;
   }
 
-  getUserInfo() {
-    return fetch(this._options.baseUrl+'users/me', {
+  serverRequest(urlSuffix, method = 'GET', body = undefined) {
+    return fetch(this._options.baseUrl+urlSuffix, {
+      method: method,
       headers: {
         authorization: this._options.headers.authorization
-      }
+      },
+      body: body
     })
     .then(response => {
       if (response.ok) {
@@ -20,21 +22,12 @@ export default class Api {
     });
   }
 
+  getUserInfo() {
+    return this.serverRequest('users/me');
+  }
+
   getInitialCards() {
-    return fetch(this._options.baseUrl+'cards', {
-      headers: {
-        authorization: this._options.headers.authorization
-      }
-    })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      return Promise.reject(`Ошибка: ${response.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    return this.serverRequest('cards');
   }
 }
 
