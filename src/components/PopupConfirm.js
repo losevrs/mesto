@@ -1,12 +1,13 @@
 import Popup from './Popup.js';
 
 export default class PopupConfirm extends Popup {
-  constructor (popupSelector, popupBodySelector) {
+  constructor (popupSelector, popupBodySelector, action) {
     super(popupSelector);
     this._popupBody = this._popupElement.querySelector(popupBodySelector);
     this.popupReferer = null;
     this._actionButton = this._popupBody.querySelector('.popup__submitquestion') || null;
     this.onEnter = () => {this._handlePressEnter(event);}
+    this._action = action.bind(this);
   }
 
   // Методы для возможности установить элемент вызвавший попуп.
@@ -18,10 +19,6 @@ export default class PopupConfirm extends Popup {
     return this.popupReferer;
   }
 
-  setActionOnYes (action) {
-    this._action = action;
-  }
-
   _submitButtonSwitch(on = true) {
     if (this._submitButton) {
         this._submitButton.disabled = !on;
@@ -30,19 +27,12 @@ export default class PopupConfirm extends Popup {
 
   _setEventListeners() {
     super._setEventListeners();
-    this._actionButton.addEventListener('click', (event) => {
-      if (this._action) {
-        this._action(event);
-      }
-    });
+    this._actionButton.addEventListener('click', this._action);
   }
 
   _handlePressEnter(event) {
     if (event.key === 'Enter') {
-      if (this._action) {
-        this._action(event);
-      }
-      this.close();
+      this._action();
     }
   }
 

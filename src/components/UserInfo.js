@@ -28,15 +28,24 @@ export default class UserInfo {
 
   setUserInfo(userInfo) {
     this._userInfo = userInfo;
+    this._profileName.textContent = this._userInfo.name;
+    this._profileDesc.textContent = this._userInfo.about;
+    this._profileAvatar.src = this._userInfo.avatar;
+}
 
-    if (userInfo.name) {
-      this._profileName.textContent = userInfo.name;
+  editUserInfo(info) {
+    const {name, about, avatar} = info;
+    if (name) {
+      this._userInfo.name = name;
+      this._profileName.textContent = this._userInfo.name;
     }
-    if (userInfo.about) {
-      this._profileDesc.textContent = userInfo.about;
+    if (about) {
+      this._userInfo.about = about;
+      this._profileDesc.textContent = this._userInfo.about;
     }
-    if (userInfo.avatar) {
-      this._profileAvatar.src = userInfo.avatar;
+    if (avatar) {
+      this._userInfo.avatar = avatar;
+      this._profileAvatar.src = this._userInfo.avatar;
     }
   }
 

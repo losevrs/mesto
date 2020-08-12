@@ -1,8 +1,8 @@
-import PopupConfirm from '../components/PopupConfirm.js';
 import onErrorImage  from '../images/placesphotos/onerror.jpg';
+import {api} from '../components/Api.js'
 
 export default class Card {
-  constructor (initialData, templateSelector, myId, viewPortShowHandler = null) {
+  constructor (initialData, templateSelector, myId, popupConfirm, viewPortShowHandler = null) {
     this._template = document.querySelector(templateSelector);
 
     if (viewPortShowHandler) {
@@ -11,18 +11,22 @@ export default class Card {
       this._showHandler = null;
     }
 
-    this._deleteHandler = this._deleteCard.bind(this);
     this._initialData = initialData;
+
     this._myId = myId;
     this._canAddDelete = this._initialData.owner._id === this._myId;
 
-    this._popupConfirm = new PopupConfirm('.popup_confirm', '.popup__question');
-    this._popupConfirm.preparePopup();
+    this._likeCount = this._initialData.likes.length;
+    this._likeShow = this._initialData.likes.some((item) => {return item._id === this._myId;});
+
+    this._popupConfirm = popupConfirm;
   }
 
   _setCardElements(template) {
     if (template) {
       this.elementCard = template.content.cloneNode(true);
+
+      this.elementCard.querySelector('.photocard').setAttribute('data-id', this._initialData._id);
 
       this.viewPort = this.elementCard.querySelector('.photocard__viewport');
       this.viewPort.src = this._initialData.link;
@@ -32,15 +36,13 @@ export default class Card {
         this.viewPort.addEventListener('click', this._showHandler);
       }
 
+      this.elementCard.querySelector('.photocard__count').textContent = this._likeCount;
+
       if (this._canAddDelete) {
         const deleteButton = this.elementCard.querySelector('.photocard__delete');
         deleteButton.classList.add('photocard__delete_show');
         deleteButton.addEventListener('click', (event) => {
-                                                    this._popupConfirm.setReferer = event.target.closest('.photocard');
-                                                    this._popupConfirm.setActionOnYes(() => {
-                                                                                             this._deleteCard(event,this._popupConfirm.setReferer);
-                                                                                             this._popupConfirm.close();
-                                                                                            });
+                                                    this._popupConfirm.setReferer(event.target.closest('.photocard'));
                                                     this._popupConfirm.open();} );
       }
 
@@ -49,6 +51,9 @@ export default class Card {
 
       const likeButton = this.elementCard.querySelector('.photocard__like');
       likeButton.addEventListener('click', this._toggleLike);
+      if (this._likeShow) {
+        likeButton.classList.add('photocard__like_on');
+      }
 
     }
     else {
@@ -71,21 +76,6 @@ export default class Card {
     return this.elementCard;
   }
 
-  _deleteCardListeners(elementCard) {
-    if (this._showHandler) {
-      elementCard.querySelector('.photocard__viewport').removeEventListener('click', this._showHandler);
-    }
-    elementCard.querySelector('.photocard__delete').removeEventListener('click', this._deleteHandler);
-    elementCard.querySelector('.photocard__like').removeEventListener('click', this._toggleLike);
-  }
-
-  // Удаляем себя
-  _deleteCard (event, card) {
-    event.stopPropagation();
-    this._deleteCardListeners(card);
-    card.remove();
-  }
-
   // Если не загрузится картинка
   _onErrorLoadImage (event) {
     event.target.src = onErrorImage;
@@ -93,7 +83,33 @@ export default class Card {
 
   // Обработка лайка
   _toggleLike (event) {
-    event.target.classList.toggle('photocard__like_on');
+    const card = event.target.closest('.photocard');
+    const cardId = card.getAttribute('data-id');
+    const likeCount = card.querySelector('.photocard__count');
+
+    if (event.target.classList.contains('photocard__like_on')) {
+      api.likeOff(cardId)
+      .then (data => {
+        if (data) {
+          likeCount.textContent = data.likes.length;
+          event.target.classList.remove('photocard__like_on');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    } else {
+      api.likeOn(cardId)
+      .then (data => {
+        if (data) {
+          likeCount.textContent = data.likes.length;
+          event.target.classList.add('photocard__like_on');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
     event.stopPropagation();
   }
 

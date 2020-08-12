@@ -10,10 +10,27 @@ import FormValidator from '../components/FormValidator.js';
 import {cardSelector, validationSettings} from '../utils/initdata.js';
 
 import {api} from '../components/Api.js'
+import { data } from 'autoprefixer';
+
+import PopupConfirm from '../components/PopupConfirm.js';
+
+// Подтверждение удаления
+const popupConfirm = new PopupConfirm('.popup_confirm', '.popup__question', function () {
+  const cardId = this.getReferer().getAttribute('data-id');
+  api.deleteCard(cardId)
+  .then (() => {
+    this.getReferer().remove();
+    this.close();
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+ });
+popupConfirm.preparePopup();
 
 // Секция для фоток
 function createNewCard(item, id) {
-  const newCard = new Card(item, cardSelector, id, (viewportDescription) => {
+  const newCard = new Card(item, cardSelector, id, popupConfirm, (viewportDescription) => {
     const {srcViewport, altViewport} = viewportDescription;
     const imageData = {
       src: srcViewport,
@@ -82,12 +99,12 @@ const popupProfile = new PopupWithForm('.popup_profileedit', (inputValues) => {
   api.saveProfile({'name': name, 'about': about})
   .then ((data) => {
     const { name, about } = data;
-    userInfo.setUserInfo({'name': name, 'about': about});
+    userInfo.editUserInfo({'name': name, 'about': about});
+    popupProfile.close();
   })
   .catch((err) => {
     console.log(err);
   });
-  popupProfile.close();
 });
 popupProfile.preparePopup();
 
@@ -98,9 +115,17 @@ validationProfile.enableValidation();
 const popupNewPlace = new PopupWithForm('.popup_newplace', (inputValues) => {
   const { photoname, photourl } = inputValues;
   const item = {name: photoname,
-                link: photourl}
-  placesPhotos.addItem(createNewCard(item, userInfo.getMyId()));
-  popupNewPlace.close();
+                link: photourl};
+  api.saveCard(item)
+  .then ((data) => {
+    if (data) {
+      placesPhotos.addItem(createNewCard(data, userInfo.getMyId()));
+      popupNewPlace.close();
+    }
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 });
 popupNewPlace.preparePopup();
 
@@ -114,8 +139,17 @@ imageViewPopup.preparePopup();
 // Редактор аватара
 const popupAvaEditor = new PopupWithForm('.popup_newavatar', (inputValues) => {
   const { avatar } = inputValues;
-  userInfo.setUserInfo({'avatar': avatar});
-  popupAvaEditor.close();
+
+  api.saveAvatar({'avatar': avatar})
+  .then ((data) => {
+    if (data) {
+      userInfo.editUserInfo({'avatar': data.avatar});
+      popupAvaEditor.close();
+    }
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 });
 popupAvaEditor.preparePopup();
 

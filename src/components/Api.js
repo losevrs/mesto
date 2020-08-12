@@ -33,11 +33,31 @@ export default class Api {
     return this.serverRequest('users/me', 'PATCH', profile);
   }
 
+  saveAvatar(avatar) {
+    return this.serverRequest('users/me/avatar', 'PATCH', avatar);
+  }
+
   // Инициализация карточек
   getInitialCards() {
     return this.serverRequest('cards');
   }
 
+  saveCard(card) {
+    return this.serverRequest('cards', 'POST', card);
+  }
+
+  deleteCard(cardId) {
+    return this.serverRequest('cards/' + cardId, 'DELETE');
+  }
+
+  // Лайки
+  likeOn(cardId) {
+    return this.serverRequest('cards/likes/' + cardId, 'PUT');
+  }
+
+  likeOff(cardId) {
+    return this.serverRequest('cards/likes/' + cardId, 'DELETE');
+  }
 }
 
 const api = new Api({

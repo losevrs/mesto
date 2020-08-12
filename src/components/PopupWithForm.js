@@ -8,6 +8,7 @@ export default class PopupWithForm extends Popup {
     this._inputs = Array.from(this._popupForm.querySelectorAll(inputSelector));
     this._submit = onSubmit;
     this._submitButton = this._popupForm.querySelector('.popup__submit') || null;
+    this._submitButton.textContent = 'Сохранить';
   }
 
   _submitButtonSwitch(on = true) {
@@ -20,6 +21,7 @@ export default class PopupWithForm extends Popup {
     super._setEventListeners();
     this._popupForm.addEventListener('submit', (event) => {
       event.preventDefault();
+      this._submitButton.textContent = 'Сохранение...';
       this._submit(this._getInputValues());
     });
   }
@@ -71,6 +73,7 @@ export default class PopupWithForm extends Popup {
     this._submitButtonSwitch(false); // Иначе срабатывает двойной Enter как два сабмита из за
                                      // плавного закрытия - 0.2s
     super.close();
+    this._submitButton.textContent = 'Сохранить';
   }
 
 }
