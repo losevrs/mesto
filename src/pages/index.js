@@ -155,8 +155,3 @@ popupAvaEditor.preparePopup();
 
 const validationAvatar = new FormValidator(validationSettings, popupAvaEditor.getPopup());
 validationAvatar.enableValidation();
-
-
-
-
-

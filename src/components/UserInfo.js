@@ -27,13 +27,16 @@ export default class UserInfo {
   }
 
   setUserInfo(userInfo) {
+    UserInfo.profileSection.classList.add('profile_hidden');
     this._userInfo = userInfo;
     this._profileName.textContent = this._userInfo.name;
     this._profileDesc.textContent = this._userInfo.about;
     this._profileAvatar.src = this._userInfo.avatar;
+    UserInfo.profileSection.classList.remove('profile_hidden');
 }
 
   editUserInfo(info) {
+    UserInfo.profileSection.classList.add('profile_hidden');
     const {name, about, avatar} = info;
     if (name) {
       this._userInfo.name = name;
@@ -47,6 +50,7 @@ export default class UserInfo {
       this._userInfo.avatar = avatar;
       this._profileAvatar.src = this._userInfo.avatar;
     }
+    UserInfo.profileSection.classList.remove('profile_hidden');
   }
 
   _onErrorLoadImage (event) {
