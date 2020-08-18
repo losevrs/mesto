@@ -9,16 +9,7 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import FormValidator from '../components/FormValidator.js';
 import {cardSelector, validationSettings} from '../utils/initdata.js';
 
-import Api from '../components/Api.js';
-
-const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-14/',
-  headers: {
-    authorization: '44e5d6af-1500-4757-9283-b4dfbe9e13fc',
-    'Content-Type': 'application/json'
-  }
-});
-
+import {api} from '../components/Api.js';
 import { data } from 'autoprefixer';
 
 import PopupConfirm from '../components/PopupConfirm.js';
