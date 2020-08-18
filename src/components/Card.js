@@ -88,27 +88,6 @@ export default class Card {
     const likeCount = card.querySelector('.photocard__count');
 
     if (event.target.classList.contains('photocard__like_on')) {
-//      api.likeOff(cardId)
-//      .then (data => {
-//        if (data) {
-//          likeCount.textContent = data.likes.length;
-//          event.target.classList.remove('photocard__like_on');
-//        }
-//      })
-//      .catch((err) => {
-//        console.log(err);
-//      });
-//    } else {
-//      api.likeOn(cardId)
-//      .then (data => {
-//        if (data) {
-//          likeCount.textContent = data.likes.length;
-//          event.target.classList.add('photocard__like_on');
-//        }
-//      })
-//      .catch((err) => {
-//        console.log(err);
-//      });
     }
     event.stopPropagation();
   }
