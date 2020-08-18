@@ -9,6 +9,8 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import FormValidator from '../components/FormValidator.js';
 import {cardSelector, validationSettings} from '../utils/initdata.js';
 
+import Api from '../components/Api.js';
+
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-14/',
   headers: {
