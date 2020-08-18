@@ -67,14 +67,15 @@ function createNewCard(item, id) {
   return newCard.getCard();
 }
 
+// Инициализация секции
 const cardsInit = {
   'renderer': function renderer(item) {
       this.addItem(createNewCard(item, userInfo.getMyId()));
   }
 }
+
 let placesPhotos = null;
 
-// Инициализация секции
 function setCardInSection() {
   api.getInitialCards()
   .then (data => {
@@ -88,8 +89,8 @@ function setCardInSection() {
 }
 
 api.getUserInfo()
-.then (data => userInfo.setUserInfo(data))
-.then (setCardInSection)
+.then (data => userInfo.setUserInfo(data)) // Сначала профиль
+.then (setCardInSection) // Потом карточки. Иначе нет _id пользователя (для удаления).
 .catch((err) => {
   console.log(err);
 });
