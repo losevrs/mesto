@@ -33,7 +33,7 @@ export default class UserInfo {
     this._profileDesc.textContent = this._userInfo.about;
     this._profileAvatar.src = this._userInfo.avatar;
     UserInfo.profileSection.classList.remove('profile_hidden');
-}
+  }
 
   editUserInfo(info) {
     UserInfo.profileSection.classList.add('profile_hidden');

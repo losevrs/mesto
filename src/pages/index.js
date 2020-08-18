@@ -17,11 +17,6 @@ import { data } from 'autoprefixer';
 const userInfo = new UserInfo({name: '.profile__name',
                                about: '.profile__about',
                                avatar: '.profile__avatar'});
-api.getUserInfo()
-.then (data => userInfo.setUserInfo(data))
-.catch((err) => {
-  console.log(err);
-});
 
 const editButton = UserInfo.profileSection.querySelector('.profile__editbutton');
 const addButton = UserInfo.profileSection.querySelector('.profile__addbutton');
@@ -74,19 +69,27 @@ function createNewCard(item, id) {
 
 const cardsInit = {
   'renderer': function renderer(item) {
-      console.log('--> ' + userInfo.getMyId());
       this.addItem(createNewCard(item, userInfo.getMyId()));
   }
 }
 let placesPhotos = null;
 
 // Инициализация секции
-api.getInitialCards()
-.then (data => {
-  cardsInit['items'] = data;
-  placesPhotos = new Section(cardsInit,'.placesphotos');
-  placesPhotos.renderItems();
-})
+function setCardInSection() {
+  api.getInitialCards()
+  .then (data => {
+    cardsInit['items'] = data;
+    placesPhotos = new Section(cardsInit,'.placesphotos');
+    placesPhotos.renderItems();
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+}
+
+api.getUserInfo()
+.then (data => userInfo.setUserInfo(data))
+.then (setCardInSection)
 .catch((err) => {
   console.log(err);
 });
