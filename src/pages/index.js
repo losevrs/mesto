@@ -7,59 +7,11 @@ import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import FormValidator from '../components/FormValidator.js';
+import PopupConfirm from '../components/PopupConfirm.js';
 import {cardSelector, validationSettings} from '../utils/initdata.js';
 
 import {api} from '../components/Api.js';
 import { data } from 'autoprefixer';
-
-import PopupConfirm from '../components/PopupConfirm.js';
-
-// Подтверждение удаления
-const popupConfirm = new PopupConfirm('.popup_confirm', '.popup__question', function () {
-  const cardId = this.getReferer().getAttribute('data-id');
-  api.deleteCard(cardId)
-  .then (() => {
-    this.getReferer().remove();
-    this.close();
-  })
-  .catch((err) => {
-    console.log(err);
-  });
- });
-popupConfirm.preparePopup();
-
-// Секция для фоток
-function createNewCard(item, id) {
-  const newCard = new Card(item, cardSelector, id, popupConfirm, (viewportDescription) => {
-    const {srcViewport, altViewport} = viewportDescription;
-    const imageData = {
-      src: srcViewport,
-      alt: altViewport
-    }
-    imageViewPopup.open(imageData);
-  });
-  return newCard.getCard();
-}
-
-const cardsInit = {
-  'renderer': function renderer(item) {
-      this.addItem(createNewCard(item, userInfo.getMyId()));
-  }
-}
-let placesPhotos = null;
-
-// Инициализация секции
-api.getInitialCards()
-.then (data => {cardsInit['items'] = data;
-                return cardsInit;
-})
-.then (data => {
-  placesPhotos = new Section(data,'.placesphotos');
-  placesPhotos.renderItems();
-})
-.catch((err) => {
-  console.log(err);
-});
 
 // Отображение данных профиля
 const userInfo = new UserInfo({name: '.profile__name',
@@ -91,6 +43,52 @@ editButton.addEventListener('click',() => {
   popupProfile.setInputValues( [profileData.name, profileData.about] );
   validationProfile.clearPopupForm();
   popupProfile.open();
+});
+
+// Подтверждение удаления
+const popupConfirm = new PopupConfirm('.popup_confirm', '.popup__question', function () {
+  const cardId = this.getReferer().getAttribute('data-id');
+  api.deleteCard(cardId)
+  .then (() => {
+    this.getReferer().remove();
+    this.close();
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+});
+popupConfirm.preparePopup();
+
+// Секция для фоток
+function createNewCard(item, id) {
+  const newCard = new Card(item, cardSelector, id, popupConfirm, (viewportDescription) => {
+    const {srcViewport, altViewport} = viewportDescription;
+    const imageData = {
+      src: srcViewport,
+      alt: altViewport
+    }
+    imageViewPopup.open(imageData);
+  });
+  return newCard.getCard();
+}
+
+const cardsInit = {
+  'renderer': function renderer(item) {
+      console.log('--> ' + userInfo.getMyId());
+      this.addItem(createNewCard(item, userInfo.getMyId()));
+  }
+}
+let placesPhotos = null;
+
+// Инициализация секции
+api.getInitialCards()
+.then (data => {
+  cardsInit['items'] = data;
+  placesPhotos = new Section(cardsInit,'.placesphotos');
+  placesPhotos.renderItems();
+})
+.catch((err) => {
+  console.log(err);
 });
 
 // Редактирование рофиля с валидацией

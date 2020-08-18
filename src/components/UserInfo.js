@@ -26,9 +26,9 @@ export default class UserInfo {
     }
   }
 
-  setUserInfo(userInfo) {
+  setUserInfo(userData) {
     UserInfo.profileSection.classList.add('profile_hidden');
-    this._userInfo = userInfo;
+    this._userInfo = userData;
     this._profileName.textContent = this._userInfo.name;
     this._profileDesc.textContent = this._userInfo.about;
     this._profileAvatar.src = this._userInfo.avatar;
