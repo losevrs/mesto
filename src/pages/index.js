@@ -8,7 +8,7 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import FormValidator from '../components/FormValidator.js';
 import PopupConfirm from '../components/PopupConfirm.js';
-import {cardSelector, validationSettings} from '../utils/initdata.js';
+import { cardSelector, validationSettings } from '../utils/initdata.js';
 
 import Api from '../components/Api.js';
 const api = new Api({
@@ -21,16 +21,18 @@ const api = new Api({
 import { data } from 'autoprefixer';
 
 // Отображение данных профиля
-const userInfo = new UserInfo({name: '.profile__name',
-                               about: '.profile__about',
-                               avatar: '.profile__avatar'});
+const userInfo = new UserInfo({
+  name: '.profile__name',
+  about: '.profile__about',
+  avatar: '.profile__avatar'
+});
 
 const editButton = UserInfo.profileSection.querySelector('.profile__editbutton');
 const addButton = UserInfo.profileSection.querySelector('.profile__addbutton');
 
 userInfo.setAvatarEditor(() => {
   const profileData = userInfo.getUserInfo();
-  popupAvaEditor.setInputValues( [profileData.avatar] );
+  popupAvaEditor.setInputValues([profileData.avatar]);
   validationAvatar.clearPopupForm();
   popupAvaEditor.open();
 });
@@ -40,9 +42,9 @@ addButton.addEventListener('click', () => {
   popupNewPlace.open();
 });
 
-editButton.addEventListener('click',() => {
+editButton.addEventListener('click', () => {
   const profileData = userInfo.getUserInfo();
-  popupProfile.setInputValues( [profileData.name, profileData.about] );
+  popupProfile.setInputValues([profileData.name, profileData.about]);
   validationProfile.clearPopupForm();
   popupProfile.open();
 });
@@ -51,33 +53,45 @@ editButton.addEventListener('click',() => {
 const popupConfirm = new PopupConfirm('.popup_confirm', '.popup__question', function () {
   const cardId = this.getReferer().getAttribute('data-id');
   api.deleteCard(cardId)
-  .then (() => {
-    this.getReferer().remove();
-    this.close();
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+    .then(() => {
+      this.getReferer().remove();
+      this.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 popupConfirm.preparePopup();
 
 // Секция для фоток
 function createNewCard(item, id) {
-  const newCard = new Card(item, cardSelector, id, popupConfirm, (viewportDescription) => {
-    const {srcViewport, altViewport} = viewportDescription;
-    const imageData = {
-      src: srcViewport,
-      alt: altViewport
-    }
-    imageViewPopup.open(imageData);
-  });
+  const newCard = new Card(item, cardSelector, id, popupConfirm,
+    (viewportDescription) => {
+      const { srcViewport, altViewport } = viewportDescription;
+      const imageData = {
+        src: srcViewport,
+        alt: altViewport
+      }
+      imageViewPopup.open(imageData);
+    },
+    (cardId, likeOn = true) => {
+      return api.like(cardId, likeOn)
+        .then(data => {
+          if (data) {
+            return data;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
   return newCard.getCard();
 }
 
 // Инициализация секции
 const cardsInit = {
   'renderer': function renderer(item) {
-      this.addItem(createNewCard(item, userInfo.getMyId()));
+    this.addItem(createNewCard(item, userInfo.getMyId()));
   }
 }
 
@@ -85,35 +99,35 @@ let placesPhotos = null;
 
 function setCardInSection() {
   api.getInitialCards()
-  .then (data => {
-    cardsInit['items'] = data;
-    placesPhotos = new Section(cardsInit,'.placesphotos');
-    placesPhotos.renderItems();
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+    .then(data => {
+      cardsInit['items'] = data;
+      placesPhotos = new Section(cardsInit, '.placesphotos');
+      placesPhotos.renderItems();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 api.getUserInfo()
-.then (data => userInfo.setUserInfo(data)) // Сначала профиль
-.then (setCardInSection) // Потом карточки. Иначе нет _id пользователя (для удаления).
-.catch((err) => {
-  console.log(err);
-});
+  .then(data => userInfo.setUserInfo(data)) // Сначала профиль
+  .then(setCardInSection) // Потом карточки. Иначе нет _id пользователя (для удаления).
+  .catch((err) => {
+    console.log(err);
+  });
 
 // Редактирование рофиля с валидацией
 const popupProfile = new PopupWithForm('.popup_profileedit', (inputValues) => {
   const { name, about } = inputValues;
-  api.saveProfile({'name': name, 'about': about})
-  .then ((data) => {
-    const { name, about } = data;
-    userInfo.editUserInfo({'name': name, 'about': about});
-    popupProfile.close();
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+  api.saveProfile({ 'name': name, 'about': about })
+    .then((data) => {
+      const { name, about } = data;
+      userInfo.editUserInfo({ 'name': name, 'about': about });
+      popupProfile.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 popupProfile.preparePopup();
 
@@ -123,18 +137,20 @@ validationProfile.enableValidation();
 // Добавление карточки с валидацией
 const popupNewPlace = new PopupWithForm('.popup_newplace', (inputValues) => {
   const { photoname, photourl } = inputValues;
-  const item = {name: photoname,
-                link: photourl};
+  const item = {
+    name: photoname,
+    link: photourl
+  };
   api.saveCard(item)
-  .then ((data) => {
-    if (data) {
-      placesPhotos.addItem(createNewCard(data, userInfo.getMyId()));
-      popupNewPlace.close();
-    }
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+    .then((data) => {
+      if (data) {
+        placesPhotos.addItem(createNewCard(data, userInfo.getMyId()));
+        popupNewPlace.close();
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 popupNewPlace.preparePopup();
 
@@ -149,16 +165,16 @@ imageViewPopup.preparePopup();
 const popupAvaEditor = new PopupWithForm('.popup_newavatar', (inputValues) => {
   const { avatar } = inputValues;
 
-  api.saveAvatar({'avatar': avatar})
-  .then ((data) => {
-    if (data) {
-      userInfo.editUserInfo({'avatar': data.avatar});
-      popupAvaEditor.close();
-    }
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+  api.saveAvatar({ 'avatar': avatar })
+    .then((data) => {
+      if (data) {
+        userInfo.editUserInfo({ 'avatar': data.avatar });
+        popupAvaEditor.close();
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 popupAvaEditor.preparePopup();
 

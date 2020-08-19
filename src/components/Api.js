@@ -5,7 +5,7 @@ export default class Api {
 
   // Запрос к серверу - по умолчанию GET
   _serverRequest(urlSuffix, method = 'GET', body = undefined) {
-    return fetch(this._options.baseUrl+urlSuffix, {
+    return fetch(this._options.baseUrl + urlSuffix, {
       method: method,
       headers: {
         authorization: this._options.headers.authorization,
@@ -13,12 +13,12 @@ export default class Api {
       },
       body: JSON.stringify(body)
     })
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-      return Promise.reject(`Ошибка: ${response.status}`);
-    });
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        return Promise.reject(`Ошибка: ${response.status}`);
+      });
   }
 
   // Профиль пользователя
@@ -48,11 +48,9 @@ export default class Api {
   }
 
   // Лайки
-  likeOn(cardId) {
-    return this._serverRequest('cards/likes/' + cardId, 'PUT');
+  like(cardId, likeOn = true) {
+    const metod = likeOn ? 'PUT' : 'DELETE';
+    return this._serverRequest('cards/likes/' + cardId, metod);
   }
 
-  likeOff(cardId) {
-    return this._serverRequest('cards/likes/' + cardId, 'DELETE');
-  }
 }

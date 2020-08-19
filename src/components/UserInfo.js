@@ -1,10 +1,10 @@
-import onErrorImage  from '../images/placesphotos/onerror.jpg';
+import onErrorImage from '../images/placesphotos/onerror.jpg';
 
 export default class UserInfo {
 
   static profileSection = document.querySelector('.profile');
 
-  constructor ({name, about, avatar}) {
+  constructor({ name, about, avatar }) {
     this._profileName = UserInfo.profileSection.querySelector(name);
     this._profileDesc = UserInfo.profileSection.querySelector(about);
     this._profileAvatar = UserInfo.profileSection.querySelector(avatar);
@@ -37,7 +37,7 @@ export default class UserInfo {
 
   editUserInfo(info) {
     UserInfo.profileSection.classList.add('profile_hidden');
-    const {name, about, avatar} = info;
+    const { name, about, avatar } = info;
     if (name) {
       this._userInfo.name = name;
       this._profileName.textContent = this._userInfo.name;
@@ -53,7 +53,7 @@ export default class UserInfo {
     UserInfo.profileSection.classList.remove('profile_hidden');
   }
 
-  _onErrorLoadImage (event) {
+  _onErrorLoadImage(event) {
     event.target.src = onErrorImage;
   }
 

@@ -4,7 +4,7 @@ export default class Popup {
     this._openedPopupClass = openedPopupClass;
     this._popupElement = document.querySelector(this._popupSelector);
     this._closeOnEsc = this._handleEscClose.bind(this);
-    this._targetsForClose = ['popup','popup__reset'];
+    this._targetsForClose = ['popup', 'popup__reset'];
   }
 
   open() {
@@ -38,7 +38,8 @@ export default class Popup {
 
   _closeOnMouseDownHandler(event) {
     const yesClose = this._targetsForClose.some((element) => {
-        return event.target.classList.contains(element);});
+      return event.target.classList.contains(element);
+    });
     if (yesClose) {
       this.close();
     }

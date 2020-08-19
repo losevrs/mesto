@@ -1,7 +1,7 @@
 import Popup from './Popup.js';
 
 export default class PopupWithForm extends Popup {
-  constructor (popupSelector, onSubmit, inputSelector = '.popup__input', formSelecor = '.popup__container') {
+  constructor(popupSelector, onSubmit, inputSelector = '.popup__input', formSelecor = '.popup__container') {
     super(popupSelector);
     this._popupForm = this._popupElement.querySelector(formSelecor);
     this._inputSelector = inputSelector;
@@ -13,7 +13,7 @@ export default class PopupWithForm extends Popup {
 
   _submitButtonSwitch(on = true) {
     if (this._submitButton) {
-        this._submitButton.disabled = !on;
+      this._submitButton.disabled = !on;
     }
   }
 
@@ -71,7 +71,7 @@ export default class PopupWithForm extends Popup {
   close() {
     this._popupForm.reset();
     this._submitButtonSwitch(false); // Иначе срабатывает двойной Enter как два сабмита из за
-                                     // плавного закрытия - 0.2s
+    // плавного закрытия - 0.2s
     super.close();
     this._submitButton.textContent = 'Сохранить';
   }
