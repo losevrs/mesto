@@ -72,8 +72,8 @@ popupConfirm.setEventListeners();
 
 // Секция для фоток
 function createNewCard(item, id) {
-  const newCard = new Card(item, cardSelector, id, popupConfirm,
-    (viewportDescription) => {
+  const newCard = new Card(item, cardSelector, id,
+    (viewportDescription) => { // <- Просмотр
       const { srcViewport, altViewport } = viewportDescription;
       const imageData = {
         src: srcViewport,
@@ -81,7 +81,7 @@ function createNewCard(item, id) {
       }
       imageViewPopup.open(imageData);
     },
-    (cardId, likeOn = true) => {
+    (cardId, likeOn = true) => { // <- Обработка лайка
       return api.like(cardId, likeOn)
         .then(data => {
           if (data) {
@@ -91,6 +91,10 @@ function createNewCard(item, id) {
         .catch((err) => {
           console.log(err);
         });
+    },
+    (referer) => { // <- Обработка удаления карточки
+      popupConfirm.setReferer(referer);
+      popupConfirm.open();
     });
   return newCard.getCard();
 }

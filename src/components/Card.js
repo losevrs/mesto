@@ -1,7 +1,9 @@
 import onErrorImage from '../images/placesphotos/onerror.jpg';
 
 export default class Card {
-  constructor(initialData, templateSelector, myId, popupConfirm, viewPortShowHandler = null, likeAktion = null) {
+  constructor(initialData, templateSelector, myId,
+    viewPortShowHandler = null, likeAktion = null, deleteAction = null) {
+
     this._template = document.querySelector(templateSelector);
 
     viewPortShowHandler ? this._showHandler =
@@ -16,9 +18,11 @@ export default class Card {
     this._likeCount = this._initialData.likes.length;
     this._likeShow = this._initialData.likes.some((item) => { return item._id === this._myId; });
 
-    this._popupConfirm = popupConfirm;
+    likeAktion ? this._likeAction = (cardId, likeOn) => likeAktion(cardId, likeOn) :
+      this._likeAction = null;
+    deleteAction ? this._deleteAction = (referer) => deleteAction(referer) :
+      this._deleteAction = null;
 
-    likeAktion ? this._likeAction = (cardId, likeOn) => likeAktion(cardId, likeOn) : this._likeAction = null;
   }
 
   _setCardElements(template) {
@@ -41,8 +45,8 @@ export default class Card {
         const deleteButton = this.elementCard.querySelector('.photocard__delete');
         deleteButton.classList.add('photocard__delete_show');
         deleteButton.addEventListener('click', (event) => {
-          this._popupConfirm.setReferer(event.target.closest('.photocard'));
-          this._popupConfirm.open();
+          const referer  = event.target.closest('.photocard');
+          this._deleteAction(referer);
         });
       }
 
