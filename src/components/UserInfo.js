@@ -20,10 +20,8 @@ export default class UserInfo {
     return this._userInfo;
   }
 
-  setAvatarEditor(action) {
-    if (action) {
-      this._profileAvatar.addEventListener('click', action.bind(this));
-    }
+  getAvatarElement() {
+    return this._profileAvatar;
   }
 
   setUserInfo(userData) {

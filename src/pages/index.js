@@ -30,23 +30,28 @@ const userInfo = new UserInfo({
 const editButton = UserInfo.profileSection.querySelector('.profile__editbutton');
 const addButton = UserInfo.profileSection.querySelector('.profile__addbutton');
 
-userInfo.setAvatarEditor(() => {
+function openEditor(popup, validator = null, values = []) {
   const profileData = userInfo.getUserInfo();
-  popupAvaEditor.setInputValues([profileData.avatar]);
-  validationAvatar.clearPopupForm();
-  popupAvaEditor.open();
+  const initParametrs = [];
+  values.forEach(value => initParametrs.push(profileData[value]));
+  popup.setInputValues(initParametrs);
+  if (validator) {
+    validator.clearPopupForm();
+  }
+  popup.open();
+}
+
+userInfo.getAvatarElement().addEventListener('click', () => {
+  openEditor(popupAvaEditor, validationAvatar, ['avatar']);
+});
+
+editButton.addEventListener('click', () => {
+  openEditor(popupProfile, validationProfile, ['name', 'about']);
 });
 
 addButton.addEventListener('click', () => {
   validationNewplace.clearPopupForm();
   popupNewPlace.open();
-});
-
-editButton.addEventListener('click', () => {
-  const profileData = userInfo.getUserInfo();
-  popupProfile.setInputValues([profileData.name, profileData.about]);
-  validationProfile.clearPopupForm();
-  popupProfile.open();
 });
 
 // Подтверждение удаления
@@ -141,10 +146,10 @@ validationProfile.enableValidation();
 
 // Добавление карточки с валидацией
 const popupNewPlace = new PopupWithForm('.popup_newplace', (inputValues) => {
-  const { photoname, photourl } = inputValues;
+  const { photoName, photoUrl } = inputValues;
   const item = {
-    name: photoname,
-    link: photourl
+    name: photoName,
+    link: photoUrl
   };
   api.saveCard(item)
     .then((data) => {
@@ -179,11 +184,13 @@ const popupAvaEditor = new PopupWithForm('.popup_newavatar', (inputValues) => {
       if (data) {
         userInfo.editUserInfo({ 'avatar': data.avatar });
         validationAvatar.submitButtonDisable(true);
-        popupAvaEditor.close();
       }
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      popupAvaEditor.close();
     });
 });
 popupAvaEditor.setEventListeners();

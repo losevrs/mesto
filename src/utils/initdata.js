@@ -1,5 +1,3 @@
-const targetsForClose = ['popup','popup__reset'];
-
 const validationSettings = {
   formSelector: '.popup__container',
   inputSelector: '.popup__input',
@@ -11,4 +9,4 @@ const validationSettings = {
 
 const cardSelector = '#card';
 
-export {targetsForClose, validationSettings, cardSelector}
+export {validationSettings, cardSelector}
