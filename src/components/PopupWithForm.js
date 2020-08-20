@@ -11,14 +11,8 @@ export default class PopupWithForm extends Popup {
     this._submitButton.textContent = 'Сохранить';
   }
 
-  _submitButtonSwitch(on = true) {
-    if (this._submitButton) {
-      this._submitButton.disabled = !on;
-    }
-  }
-
-  _setEventListeners() {
-    super._setEventListeners();
+  setEventListeners() {
+    super.setEventListeners();
     this._popupForm.addEventListener('submit', (event) => {
       event.preventDefault();
       this._submitButton.textContent = 'Сохранение...';
@@ -48,30 +42,8 @@ export default class PopupWithForm extends Popup {
     return returnInputValues;
   }
 
-  // Функции могут быть полезны при возникновении необходимости работать с каким либо
-  // инпутом по имени отдельно.
-  _getInputByName(name) {
-    return this._inputs.find((element) => {
-      return (element.name === name) ? true : false;
-    });
-  }
-
-  getInputValueByName(name) {
-    const input = this._getInputByName(name);
-    return (input) ? input.value : null;
-  }
-
-  setInputValueByName(name, value) {
-    const input = this._getInputByName(name);
-    if (input) {
-      input.value = value;
-    }
-  }
-
   close() {
     this._popupForm.reset();
-    this._submitButtonSwitch(false); // Иначе срабатывает двойной Enter как два сабмита из за
-    // плавного закрытия - 0.2s
     super.close();
     this._submitButton.textContent = 'Сохранить';
   }

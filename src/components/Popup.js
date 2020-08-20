@@ -21,10 +21,6 @@ export default class Popup {
     document.removeEventListener('keydown', this._closeOnEsc);
   }
 
-  preparePopup() {
-    this._setEventListeners();
-  }
-
   // Возвращает сам элемент popup-а для, например, привязки к валидатору.
   getPopup() {
     return this._popupElement;
@@ -45,7 +41,7 @@ export default class Popup {
     }
   }
 
-  _setEventListeners() {
+  setEventListeners() {
     this._popupElement.addEventListener('mousedown', this._closeOnMouseDownHandler.bind(this));
   }
 

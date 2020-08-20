@@ -50,18 +50,20 @@ editButton.addEventListener('click', () => {
 });
 
 // Подтверждение удаления
-const popupConfirm = new PopupConfirm('.popup_confirm', '.popup__question', function () {
+const popupConfirm = new PopupConfirm('.popup_confirm', function () {
   const cardId = this.getReferer().getAttribute('data-id');
   api.deleteCard(cardId)
     .then(() => {
       this.getReferer().remove();
-      this.close();
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      this.close();
     });
 });
-popupConfirm.preparePopup();
+popupConfirm.setEventListeners();
 
 // Секция для фоток
 function createNewCard(item, id) {
@@ -116,20 +118,23 @@ api.getUserInfo()
     console.log(err);
   });
 
-// Редактирование рофиля с валидацией
+// Редактирование профиля с валидацией
 const popupProfile = new PopupWithForm('.popup_profileedit', (inputValues) => {
   const { name, about } = inputValues;
   api.saveProfile({ 'name': name, 'about': about })
     .then((data) => {
       const { name, about } = data;
       userInfo.editUserInfo({ 'name': name, 'about': about });
-      popupProfile.close();
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      popupProfile.close();
     });
+  validationProfile.submitButtonDisable(true);
 });
-popupProfile.preparePopup();
+popupProfile.setEventListeners();
 
 const validationProfile = new FormValidator(validationSettings, popupProfile.getPopup());
 validationProfile.enableValidation();
@@ -145,21 +150,25 @@ const popupNewPlace = new PopupWithForm('.popup_newplace', (inputValues) => {
     .then((data) => {
       if (data) {
         placesPhotos.addItem(createNewCard(data, userInfo.getMyId()));
-        popupNewPlace.close();
       }
     })
     .catch((err) => {
       console.log(err);
-    });
+    })
+    .finally(() => {
+      popupNewPlace.close();
+    }
+    );
+  validationNewplace.submitButtonDisable(true);
 });
-popupNewPlace.preparePopup();
+popupNewPlace.setEventListeners();
 
 const validationNewplace = new FormValidator(validationSettings, popupNewPlace.getPopup());
 validationNewplace.enableValidation();
 
 // Просмотр фото карточки
 const imageViewPopup = new PopupWithImage('.popup_view');
-imageViewPopup.preparePopup();
+imageViewPopup.setEventListeners();
 
 // Редактор аватара
 const popupAvaEditor = new PopupWithForm('.popup_newavatar', (inputValues) => {
@@ -169,6 +178,7 @@ const popupAvaEditor = new PopupWithForm('.popup_newavatar', (inputValues) => {
     .then((data) => {
       if (data) {
         userInfo.editUserInfo({ 'avatar': data.avatar });
+        validationAvatar.submitButtonDisable(true);
         popupAvaEditor.close();
       }
     })
@@ -176,7 +186,7 @@ const popupAvaEditor = new PopupWithForm('.popup_newavatar', (inputValues) => {
       console.log(err);
     });
 });
-popupAvaEditor.preparePopup();
+popupAvaEditor.setEventListeners();
 
 const validationAvatar = new FormValidator(validationSettings, popupAvaEditor.getPopup());
 validationAvatar.enableValidation();

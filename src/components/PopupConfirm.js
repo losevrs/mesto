@@ -1,13 +1,21 @@
 import Popup from './Popup.js';
 
 export default class PopupConfirm extends Popup {
-  constructor(popupSelector, popupBodySelector, action) {
+  constructor(popupSelector, onSubmit, formSelecor = '.popup__container') {
     super(popupSelector);
-    this._popupBody = this._popupElement.querySelector(popupBodySelector);
+    this._popupForm = this._popupElement.querySelector(formSelecor);
+    this._submit = onSubmit;
+    this._submitButton = this._popupForm.querySelector('.popup__submit') || null;
     this.popupReferer = null;
-    this._actionButton = this._popupBody.querySelector('.popup__submitquestion') || null;
-    this.onEnter = () => { this._handlePressEnter(event); }
-    this._action = action.bind(this);
+    this._submitButton.textContent = 'Да';
+    this._handleOnEnterSubmit = this._handleOnEnterSubmit.bind(this);
+    this._handleSubmit = this._handleSubmit.bind(this);
+    this._submitOn = true;
+  }
+
+  setEventListeners() {
+    super.setEventListeners();
+    this._popupForm.addEventListener('submit', this._handleSubmit);
   }
 
   // Методы для возможности установить элемент вызвавший попуп.
@@ -19,33 +27,35 @@ export default class PopupConfirm extends Popup {
     return this.popupReferer;
   }
 
-  _submitButtonSwitch(on = true) {
-    if (this._submitButton) {
-      this._submitButton.disabled = !on;
+  _handleSubmit(event) {
+    event.preventDefault();
+    if (this._submitOn) {
+      //Так как форма без валидации, двойное срабатывание сабмита
+      //разрулим флагом. Иначе дабл-клик и двойной быстрый Enter
+      //дают два сабмита.
+      this._submitOn = false;
+      this._submitButton.textContent = 'Удаление...';
+      this._submit();
     }
   }
 
-  _setEventListeners() {
-    super._setEventListeners();
-    this._actionButton.addEventListener('click', this._action);
-  }
-
-  _handlePressEnter(event) {
+  // Так как инпутов нет - добавляем сами
+  _handleOnEnterSubmit(event) {
     if (event.key === 'Enter') {
-      this._action();
+      this._handleSubmit(event);
     }
   }
 
   open() {
     super.open();
-    document.addEventListener('keydown', this.onEnter);
+    this._submitOn = true;
+    document.addEventListener('keydown', this._handleOnEnterSubmit);
   }
 
   close() {
-    this._submitButtonSwitch(false); // Иначе срабатывает двойной Enter как два сабмита из за
-    // плавного закрытия - 0.2s
     super.close();
-    document.removeEventListener('keydown', this.onEnter);
+    document.removeEventListener('keydown', this._handleOnEnterSubmit);
+    this._submitButton.textContent = 'Да';
   }
 
 }

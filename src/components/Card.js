@@ -1,5 +1,4 @@
 import onErrorImage from '../images/placesphotos/onerror.jpg';
-import { api } from '../components/Api.js'
 
 export default class Card {
   constructor(initialData, templateSelector, myId, popupConfirm, viewPortShowHandler = null, likeAktion = null) {
